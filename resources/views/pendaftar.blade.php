@@ -14,6 +14,7 @@
             <td>{{ $pendaftar['nama'] }}</td>
             <td>
                 <!-- Menggunakan Blade If-Else untuk kondisional -->
+            
                 @if($pendaftar['status'] == 'Sudah Bekerja')
                     <span style="color: green; font-weight: bold;">{{ $pendaftar['status'] }}</span>
                 @else

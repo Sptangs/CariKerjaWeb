@@ -8,6 +8,7 @@ Route::get('/', [PageController::class, 'index']);
 Route::get('/about', [PageController::class, 'about']);
 Route::get('/service', [PageController::class, 'service']);
 
+//4311
 Route::get('/pendaftar', [PageController::class, 'pendaftar']);
 Route::get('/pendaftar-master', [PageController::class, 'pendaftar_master']);
 
