@@ -6,12 +6,14 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['job_id', 'user_id', 'cover_letter', 'status'])]
+// "status" tidak boleh di-mass assign: hanya company pemilik lowongan
+// yang boleh mengubahnya, lewat controller (diisi eksplisit).
+#[Fillable(['job_id', 'cover_letter'])]
 class Application extends Model
 {
     public function job(): BelongsTo
     {
-        return $this->belongsTo(JobPosting::class, 'job_id');
+        return $this->belongsTo(Job::class, 'job_id');
     }
 
     public function user(): BelongsTo
