@@ -94,8 +94,20 @@ class JobSeekerProfileController extends Controller
     {
         $cvPath = $request->user()->jobSeekerProfile?->cv_path;
 
-        abort_unless(is_string($cvPath) && Storage::disk('local')->exists($cvPath), 404);
+        abort_unless(is_string($cvPath), 404);
 
-        return Storage::disk('local')->download($cvPath, basename($cvPath));
+        $stream = Storage::disk('local')->readStream($cvPath);
+
+        if (! is_resource($stream)) {
+            abort(404);
+        }
+
+        return response()->streamDownload(function () use ($stream): void {
+            try {
+                fpassthru($stream);
+            } finally {
+                fclose($stream);
+            }
+        }, basename($cvPath));
     }
 }

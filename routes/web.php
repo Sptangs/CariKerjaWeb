@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\JobSeekerController;
 use App\Http\Controllers\JobSeekerProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,9 +25,20 @@ Route::middleware(['auth', 'role:job_seeker'])
     ->prefix('job-seeker')
     ->name('job-seeker.')
     ->group(function () {
-        Route::get('/dashboard', [JobSeekerProfileController::class, 'dashboard'])
+
+        // Home
+        Route::get('/dashboard', [JobSeekerController::class, 'dashboard'])
             ->name('dashboard');
 
+        // Lowongan
+        Route::get('/lowongan', [JobSeekerController::class, 'lowongan'])
+            ->name('lowongan');
+
+        // Riwayat Lamaran
+        Route::get('/riwayat-lamaran', [JobSeekerController::class, 'riwayat'])
+            ->name('riwayat');
+
+        // Profile
         Route::get('/profile', [JobSeekerProfileController::class, 'profile'])
             ->name('profile');
 
@@ -36,7 +48,7 @@ Route::middleware(['auth', 'role:job_seeker'])
         Route::get('/profile/cv', [JobSeekerProfileController::class, 'downloadCv'])
             ->name('profile.cv');
     });
-
+    
 Route::middleware(['auth', 'role:company'])
     ->prefix('company')
     ->name('company.')
