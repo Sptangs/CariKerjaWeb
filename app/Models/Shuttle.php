@@ -12,4 +12,12 @@ class Shuttle extends Model
         'rute_operasional',
         'status_aktif',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'kapasitas' => 'integer',
+            'status_aktif' => 'boolean',
+        ];
+    }
 }
