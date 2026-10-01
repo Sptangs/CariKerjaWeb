@@ -26,19 +26,21 @@ Route::middleware(['auth', 'role:job_seeker'])
     ->name('job-seeker.')
     ->group(function () {
 
-        // Home
         Route::get('/dashboard', [JobSeekerController::class, 'dashboard'])
             ->name('dashboard');
 
-        // Lowongan
         Route::get('/lowongan', [JobSeekerController::class, 'lowongan'])
             ->name('lowongan');
 
-        // Riwayat Lamaran
+        Route::get('/lowongan/{job}', [JobSeekerController::class, 'detailLowongan'])
+            ->name('lowongan.detail');
+
+        Route::post('/lowongan/{job}/apply', [JobSeekerController::class, 'apply'])
+            ->name('lowongan.apply');
+
         Route::get('/riwayat-lamaran', [JobSeekerController::class, 'riwayat'])
             ->name('riwayat');
 
-        // Profile
         Route::get('/profile', [JobSeekerProfileController::class, 'profile'])
             ->name('profile');
 
@@ -47,8 +49,10 @@ Route::middleware(['auth', 'role:job_seeker'])
 
         Route::get('/profile/cv', [JobSeekerProfileController::class, 'downloadCv'])
             ->name('profile.cv');
+        Route::delete('/profile/cv', [JobSeekerProfileController::class, 'deleteCv'])
+            ->name('profile.cv.delete');
     });
-    
+
 Route::middleware(['auth', 'role:company'])
     ->prefix('company')
     ->name('company.')

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -109,5 +110,33 @@ class JobSeekerProfileController extends Controller
                 fclose($stream);
             }
         }, basename($cvPath));
+    }
+
+    public function deleteCv(Request $request): RedirectResponse
+    {
+        $user = $request->user();
+
+        if (! ($user instanceof User)) {
+            abort(403);
+        }
+
+        $profile = $user->jobSeekerProfile;
+
+        if (! $profile) {
+            return redirect()
+                ->route('job-seeker.profile')
+                ->with('error', 'Profil tidak ditemukan.');
+        }
+
+        if ($profile->cv_path) {
+            Storage::disk('public')->delete($profile->cv_path);
+
+            $profile->cv_path = null;
+            $profile->save();
+        }
+
+        return redirect()
+            ->route('job-seeker.profile')
+            ->with('success', 'CV berhasil dihapus.');
     }
 }
