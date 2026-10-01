@@ -6,11 +6,21 @@ use App\Models\Application;
 use App\Models\JobPosting;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class CariKerjaSeeder extends Seeder
 {
     public function run(): void
     {
+        User::updateOrCreate(
+            ['email' => 'admin@example.com'],
+            [
+                'name' => 'Administrator',
+                'password' => Hash::make('password'),
+                'role' => 'admin',
+            ]
+        );
+
         $septian = $this->createJobSeeker('Septian', 'seeker@example.com', [
             'phone' => '081234567890',
             'address' => 'Madiun, Jawa Timur',
@@ -31,7 +41,11 @@ class CariKerjaSeeder extends Seeder
 
         $companyUser = User::updateOrCreate(
             ['email' => 'company@example.com'],
-            ['name' => 'PT Teknologi Maju', 'password' => 'password', 'role' => 'company']
+            [
+                'name' => 'PT Teknologi Maju',
+                'password' => Hash::make('password'),
+                'role' => 'company',
+            ]
         );
 
         $company = $companyUser->company()->updateOrCreate([], [
@@ -94,17 +108,47 @@ class CariKerjaSeeder extends Seeder
             ]
         );
 
-        $this->apply($jobs['backend'], $septian, 'pending', 'Saya tertarik pada posisi Backend Developer.');
-        $this->apply($jobs['frontend'], $septian, 'accepted', 'Saya terbiasa membuat antarmuka dari desain Figma.');
-        $this->apply($jobs['backend'], $budi, 'rejected', 'Saya punya pengalaman membangun API dengan Laravel.');
-        $this->apply($jobs['fullstack'], $siti, 'pending', 'Saya ingin berkembang sebagai full stack developer.');
+        $this->apply(
+            $jobs['backend'],
+            $septian,
+            'pending',
+            'Saya tertarik pada posisi Backend Developer.'
+        );
+
+        $this->apply(
+            $jobs['frontend'],
+            $septian,
+            'accepted',
+            'Saya terbiasa membuat antarmuka dari desain Figma.'
+        );
+
+        $this->apply(
+            $jobs['backend'],
+            $budi,
+            'rejected',
+            'Saya punya pengalaman membangun API dengan Laravel.'
+        );
+
+        $this->apply(
+            $jobs['fullstack'],
+            $siti,
+            'pending',
+            'Saya ingin berkembang sebagai full stack developer.'
+        );
     }
 
-    private function createJobSeeker(string $name, string $email, array $profile): User
-    {
+    private function createJobSeeker(
+        string $name,
+        string $email,
+        array $profile
+    ): User {
         $user = User::updateOrCreate(
             ['email' => $email],
-            ['name' => $name, 'password' => 'password', 'role' => 'job_seeker']
+            [
+                'name' => $name,
+                'password' => Hash::make('password'),
+                'role' => 'job_seeker',
+            ]
         );
 
         $user->jobSeekerProfile()->updateOrCreate([], $profile);
@@ -112,14 +156,20 @@ class CariKerjaSeeder extends Seeder
         return $user;
     }
 
-    private function apply(JobPosting $job, User $user, string $status, string $coverLetter): void
-    {
-        
+    private function apply(
+        JobPosting $job,
+        User $user,
+        string $status,
+        string $coverLetter
+    ): void {
         if ($job->applications()->where('user_id', $user->id)->exists()) {
             return;
         }
 
-        $application = new Application(['cover_letter' => $coverLetter]);
+        $application = new Application([
+            'cover_letter' => $coverLetter,
+        ]);
+
         $application->job_id = $job->id;
         $application->user_id = $user->id;
         $application->status = $status;

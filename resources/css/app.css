@@ -7,3 +7,272 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+:root {
+    --dashboard-border: #dbe3ea;
+    --dashboard-ink: #18232d;
+    --dashboard-muted: #64748b;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body.dashboard-page {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    margin: 0;
+    background: #f5f7f8;
+    color: var(--dashboard-ink);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+}
+
+.dashboard-page a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.container {
+    width: 100%;
+    max-width: 1120px;
+    margin-inline: auto;
+    padding-inline: 20px;
+}
+
+.site-header {
+    border-bottom: 1px solid var(--dashboard-border);
+}
+
+.site-header--admin {
+    background: #17212b;
+    color: #f8fafc;
+}
+
+.site-header--job-seeker {
+    background: #eaf3ff;
+    color: #174ea6;
+}
+
+.site-header--company {
+    background: #e7f7ef;
+    color: #176747;
+}
+
+.header-inner,
+.header-nav {
+    display: flex;
+    align-items: center;
+}
+
+.header-inner {
+    min-height: 68px;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.brand {
+    flex: 0 0 auto;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.brand-tag {
+    margin-left: 9px;
+    font-size: 11px;
+    font-weight: 700;
+    vertical-align: middle;
+}
+
+.site-header--admin .brand-tag {
+    color: #86efac;
+}
+
+.header-nav {
+    gap: 18px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.header-nav form {
+    margin: 0;
+}
+
+.nav-user {
+    font-weight: 400;
+    opacity: .78;
+}
+
+.button {
+    display: inline-flex;
+    min-height: 36px;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 13px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.button-outline {
+    border-color: currentColor;
+    background: transparent;
+    color: inherit;
+}
+
+.dashboard-main {
+    flex: 1;
+    padding-block: 28px 40px;
+}
+
+.dashboard-layout {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    align-items: start;
+    gap: 20px;
+}
+
+.dashboard-sidebar,
+.dashboard-card {
+    border: 1px solid var(--dashboard-border);
+    border-radius: 8px;
+    background: #fff;
+}
+
+.dashboard-sidebar {
+    padding: 15px;
+}
+
+.sidebar-label {
+    margin: 0 0 12px;
+    color: var(--dashboard-muted);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.sidebar-link {
+    display: block;
+    padding: 9px 11px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.sidebar-link--admin {
+    background: #e9eef3;
+    color: #23384b;
+}
+
+.sidebar-link--job-seeker {
+    background: #eaf3ff;
+    color: #174ea6;
+}
+
+.sidebar-link--company {
+    background: #e7f7ef;
+    color: #176747;
+}
+
+.dashboard-content {
+    min-width: 0;
+}
+
+.dashboard-card {
+    padding: 24px;
+}
+
+.dashboard-card h1 {
+    margin: 0 0 4px;
+    font-size: 24px;
+}
+
+.dashboard-card p {
+    margin: 0 0 16px;
+}
+
+.dashboard-card .subtitle {
+    color: var(--dashboard-muted);
+}
+
+.dashboard-card ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.alert {
+    margin-bottom: 18px;
+    padding: 12px 16px;
+    border-radius: 6px;
+}
+
+.alert-success {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.site-footer {
+    border-top: 1px solid var(--dashboard-border);
+}
+
+.site-footer--admin {
+    background: #17212b;
+    color: #d5dee7;
+}
+
+.site-footer--job-seeker {
+    background: #eaf3ff;
+    color: #174ea6;
+}
+
+.site-footer--company {
+    background: #e7f7ef;
+    color: #176747;
+}
+
+.footer-inner {
+    display: flex;
+    min-height: 60px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    font-size: 13px;
+}
+
+@media (max-width: 700px) {
+    .dashboard-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .header-inner {
+        min-height: 60px;
+    }
+
+    .header-nav {
+        gap: 10px;
+    }
+
+    .header-nav > a,
+    .nav-user {
+        display: none;
+    }
+
+    .footer-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        justify-content: center;
+        gap: 3px;
+        padding-block: 12px;
+    }
+
+    .dashboard-card {
+        padding: 18px;
+    }
+}

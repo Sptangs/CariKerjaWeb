@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['user_id', 'phone', 'address', 'education', 'cv_path'])]
+#[Fillable(['phone', 'address', 'education', 'cv_path'])]
 class JobSeekerProfile extends Model
 {
     public function user(): BelongsTo

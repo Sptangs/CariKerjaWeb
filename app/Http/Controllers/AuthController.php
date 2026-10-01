@@ -13,6 +13,17 @@ use Illuminate\View\View;
 
 class AuthController extends Controller
 {
+    public function start(Request $request): RedirectResponse
+    {
+        $user = $request->user();
+
+        if ($user === null) {
+            return redirect()->route('login');
+        }
+
+        return redirect()->route($this->dashboardRoute($user));
+    }
+
     public function showRegister(): View
     {
         return view('auth.register');
@@ -32,7 +43,7 @@ class AuthController extends Controller
             $user = User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
-                'password' => $data['password'], 
+                'password' => $data['password'],
                 'role' => $data['role'],
             ]);
 
@@ -85,13 +96,15 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/')->with('success', 'Anda sudah keluar.');
+        return redirect()->route('login')->with('success', 'Anda sudah keluar.');
     }
 
     private function dashboardRoute(User $user): string
     {
-        return $user->role === 'company'
-            ? 'company.dashboard'
-            : 'job-seeker.dashboard';
+        return match ($user->role) {
+            'company' => 'company.dashboard',
+            'admin' => 'admin.dashboard',
+            default => 'job-seeker.dashboard',
+        };
     }
 }
