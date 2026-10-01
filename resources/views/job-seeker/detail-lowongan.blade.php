@@ -485,129 +485,117 @@
 
 
                 {{-- Application Status --}}
-                @if (strtolower($job->status) === 'closed' && !$hasApplied)
+{{-- Application Status --}}
+@if (strtolower($job->status) === 'closed' && !$hasApplied)
 
-                    {{-- Lowongan Ditutup --}}
-                    <div
-                        class="rounded-xl border border-red-200 bg-red-50 p-4"
-                    >
-                        <div class="flex items-start gap-3">
+    {{-- Lowongan Ditutup --}}
+    <div class="rounded-xl border border-red-200 bg-red-50 p-4">
+        <div class="flex items-start gap-3">
 
-                            <div
-                                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg
-                                       bg-red-100 text-red-600"
-                            >
-                                <svg
-                                    class="h-5 w-5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M12 9v4m0 4h.01M10.29 3.86l-7.82 14a2 2 0 001.74 3h15.58a2 2 0 001.74-3l-7.82-14a2 2 0 00-3.42 0z"
-                                    />
-                                </svg>
-                            </div>
+            <div
+                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg
+                       bg-red-100 text-red-600"
+            >
+                <svg
+                    class="h-5 w-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 9v4m0 4h.01M10.29 3.86l-7.82 14a2 2 0 001.74 3h15.58a2 2 0 001.74-3l-7.82-14a2 2 0 00-3.42 0z"
+                    />
+                </svg>
+            </div>
 
-                            <div>
-                                <h3 class="text-sm font-bold text-red-800">
-                                    Lowongan Ditutup
-                                </h3>
+            <div>
+                <h3 class="text-sm font-bold text-red-800">
+                    Lowongan Ditutup
+                </h3>
 
-                                <p class="mt-1 text-xs leading-5 text-red-700">
-                                    Lowongan ini sudah tidak menerima lamaran baru.
-                                </p>
-                            </div>
+                <p class="mt-1 text-xs leading-5 text-red-700">
+                    Lowongan ini sudah tidak menerima lamaran baru.
+                </p>
+            </div>
 
-                        </div>
-                    </div>
+        </div>
+    </div>
 
+@elseif ($hasApplied)
 
-                @elseif ($hasApplied)
+    {{-- Sudah Melamar --}}
+    <div class="rounded-xl border border-emerald-200 bg-emerald-50 p-4">
+        <div class="flex items-start gap-3">
 
-                    {{-- Sudah Melamar --}}
-                    <div
-                        class="rounded-xl border border-emerald-200 bg-emerald-50 p-4"
-                    >
-                        <div class="flex items-start gap-3">
+            <div
+                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg
+                       bg-emerald-100 text-emerald-600"
+            >
+                <svg
+                    class="h-5 w-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M5 13l4 4L19 7"
+                    />
+                </svg>
+            </div>
 
-                            <div
-                                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg
-                                       bg-emerald-100 text-emerald-600"
-                            >
-                                <svg
-                                    class="h-5 w-5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M5 13l4 4L19 7"
-                                    />
-                                </svg>
-                            </div>
+            <div>
+                <h3 class="text-sm font-bold text-emerald-800">
+                    Sudah Melamar
+                </h3>
 
-                            <div>
-                                <h3 class="text-sm font-bold text-emerald-800">
-                                    Sudah Melamar
-                                </h3>
+                <p class="mt-1 text-xs leading-5 text-emerald-700">
+                    Kamu sudah mengirim lamaran untuk lowongan ini.
+                </p>
+            </div>
 
-                                <p class="mt-1 text-xs leading-5 text-emerald-700">
-                                    Kamu sudah mengirim lamaran untuk lowongan ini.
-                                </p>
-                            </div>
+        </div>
+    </div>
 
-                        </div>
-                    </div>
+@else
 
+    {{-- Tombol Lamar --}}
+    <a
+        href="{{ route('job-seeker.lowongan.apply', $job->id) }}"
+        class="inline-flex w-full items-center justify-center gap-2 rounded-xl
+               bg-indigo-600 px-5 py-3 text-sm font-bold text-white
+               shadow-sm transition-all duration-200
+               hover:-translate-y-0.5 hover:bg-indigo-700 hover:shadow-md
+               focus:outline-none focus:ring-2 focus:ring-indigo-500
+               focus:ring-offset-2"
+    >
+        <svg
+            class="h-5 w-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+        >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 12h14M13 6l6 6-6 6"
+            />
+        </svg>
 
-                @else
+        Lamar Sekarang
+    </a>
 
-                    {{-- Belum Melamar --}}
-                    <form
-                        method="POST"
-                        action="{{ route('job-seeker.lowongan.apply', $job->id) }}"
-                    >
-                        @csrf
+    <p class="mt-3 text-center text-xs leading-5 text-slate-400">
+        Pastikan profil dan CV kamu sudah lengkap sebelum melamar.
+    </p>
 
-                        <button
-                            type="submit"
-                            class="inline-flex w-full items-center justify-center gap-2 rounded-xl
-                                   bg-indigo-600 px-5 py-3 text-sm font-bold text-white
-                                   shadow-sm transition-all duration-200
-                                   hover:-translate-y-0.5 hover:bg-indigo-700 hover:shadow-md
-                                   focus:outline-none focus:ring-2 focus:ring-indigo-500
-                                   focus:ring-offset-2 active:translate-y-0"
-                        >
-                            <svg
-                                class="h-5 w-5"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M5 12h14M13 6l6 6-6 6"
-                                />
-                            </svg>
-
-                            Lamar Sekarang
-                        </button>
-                    </form>
-
-                    <p class="mt-3 text-center text-xs leading-5 text-slate-400">
-                        Pastikan profil dan CV kamu sudah lengkap sebelum melamar.
-                    </p>
-
-                @endif
+@endif
 
             </div>
 

@@ -8,6 +8,7 @@
 
     <title>@yield('title', 'Dashboard Pencari Kerja') - CariKerja</title>
 
+    @fonts
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -76,7 +77,7 @@
                         type="button"
                         @click="open = !open"
                         class="flex h-10 w-10 items-center justify-center rounded-full
-                           bg-gradient-to-br from-indigo-500 to-blue-600
+                           bg-linear-to-br from-indigo-500 to-blue-600
                            text-sm font-bold text-white
                            shadow-sm shadow-indigo-200
                            transition hover:scale-105 hover:shadow-md
@@ -94,12 +95,12 @@
                         style="display: none;">
 
                         {{-- User --}}
-                        <div class="bg-gradient-to-r from-indigo-50 to-blue-50 px-5 py-4">
+                        <div class="bg-linear-to-r from-indigo-50 to-blue-50 px-5 py-4">
 
                             <div class="flex items-center gap-3">
 
                                 <div class="flex h-11 w-11 items-center justify-center rounded-full
-                                        bg-gradient-to-br from-indigo-500 to-blue-600
+                                        bg-linear-to-br from-indigo-500 to-blue-600
                                         font-bold text-white">
                                     {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                                 </div>

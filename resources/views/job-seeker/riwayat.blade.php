@@ -72,4 +72,10 @@
         </div>
     @endforelse
 
+    @if ($applications->hasPages())
+        <div class="mt-6">
+            {{ $applications->links() }}
+        </div>
+    @endif
+
 @endsection

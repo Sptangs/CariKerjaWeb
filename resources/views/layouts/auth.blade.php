@@ -1,13 +1,11 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Beranda') - CariKerja</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    @fonts
     <style>
         :root {
             --primary: #2563EB;
@@ -20,7 +18,7 @@
             --error-bg: #FEE2E2; --error-text: #991B1B;
         }
         * { box-sizing: border-box; }
-        body { margin: 0; font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+        body { margin: 0; font-family: 'Instrument Sans', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
         a { color: var(--primary); text-decoration: none; }
         .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 16px; }
         .main { padding-top: 24px; padding-bottom: 48px; }
@@ -147,4 +145,4 @@
 
     @stack('scripts')
 </body>
-</html> -->
+</html>

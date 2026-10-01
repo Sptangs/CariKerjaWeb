@@ -84,7 +84,7 @@
         </h2>
 
         <p class="mt-1 text-sm text-slate-500">
-            {{ $jobs->count() }} lowongan tersedia
+            {{ $jobs->total() }} lowongan tersedia
         </p>
     </div>
 </div>
@@ -186,5 +186,11 @@
 </div>
 
 @endforelse
+
+@if ($jobs->hasPages())
+    <div class="mt-6">
+        {{ $jobs->links() }}
+    </div>
+@endif
 
 @endsection

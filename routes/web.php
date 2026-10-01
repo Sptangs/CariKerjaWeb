@@ -38,6 +38,12 @@ Route::middleware(['auth', 'role:job_seeker'])
         Route::post('/lowongan/{job}/apply', [JobSeekerController::class, 'apply'])
             ->name('lowongan.apply');
 
+        Route::get('/lowongan/{job}/apply', [JobSeekerController::class, 'formLamaran'])
+            ->name('lowongan.apply');
+
+        Route::post('/lowongan/{job}/apply', [JobSeekerController::class, 'apply'])
+            ->name('lowongan.apply.store');
+
         Route::get('/riwayat-lamaran', [JobSeekerController::class, 'riwayat'])
             ->name('riwayat');
 
