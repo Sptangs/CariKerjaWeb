@@ -65,7 +65,7 @@ class CompanyController extends Controller
     public function lowongan(Request $request): View
     {
         $company = $request->user()->company;
-        $jobPostings = $company->jobPosting()->latest()->get();
+        $jobPostings = $company->jobs()->latest()->get();
 
         return view('company.lowongan', compact('jobPostings'));
     }
@@ -141,7 +141,7 @@ class CompanyController extends Controller
         abort_if($jobPosting->company->id !== $request->user()->company->id, 403);
 
         $applications = $jobPosting->applications()->with('user')->latest()->get();
-        
+
         return view('company.pelamar', compact('jobPosting', 'applications'));
     }
 
