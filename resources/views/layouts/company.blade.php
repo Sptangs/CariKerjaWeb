@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Dashboard Perusahaan') - CariKerja</title>
-    @fonts
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
+</head> 
 <body class="dashboard-page dashboard-page--company">
     <header class="site-header site-header--company">
         <div class="container header-inner">
