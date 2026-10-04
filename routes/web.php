@@ -83,15 +83,15 @@ Route::middleware(['auth', 'role:company'])
             ->name('lowongan.edit');
         Route::put('/lowongan/{jobPosting}', [CompanyController::class, 'updateLowongan'])
             ->name('lowongan.update');
-        Route::delete('/lowongan/{jobPosting}/tutup', [CompanyController::class, 'tutupLowongan'])
+        Route::put('/lowongan/{jobPosting}/tutup', [CompanyController::class, 'tutupLowongan'])
             ->name('lowongan.tutup');
 
         //pelamar
         Route::get('/lowongan/{jobPosting}/pelamar', [CompanyController::class, 'pelamar'])
             ->name('lowongan.pelamar');
-        Route::get('pelamar/{application}/terima', [CompanyController::class, 'terimaPelamar'])
+        Route::put('/pelamar/{application}/terima', [CompanyController::class, 'terimaPelamar'])
             ->name('pelamar.terima');
-        Route::get('pelamar/{application}/tolak', [CompanyController::class, 'tolakPelamar'])
+        Route::put('/pelamar/{application}/tolak', [CompanyController::class, 'tolakPelamar'])
             ->name('pelamar.tolak');
     });
 
