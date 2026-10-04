@@ -88,7 +88,7 @@ class CompanyController extends Controller
             'status' => ['required', 'in:open,closed'],
         ]);
 
-        $request->user()->company->jobPosting()->create($validated);
+        $request->user()->company->jobs()->create($validated);
 
         return redirect()
             ->route('company.lowongan')
