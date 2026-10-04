@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['company_name', 'description', 'address'])]
 class Company extends Model
 {
+    protected $fillable = ['company_name', 'description', 'address'];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
