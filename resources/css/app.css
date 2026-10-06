@@ -179,6 +179,11 @@ body.dashboard-page {
     color: #176747;
 }
 
+.sidebar-link--company.active {
+    background: #176747;
+    color: #fff;
+}
+
 .dashboard-content {
     min-width: 0;
 }
