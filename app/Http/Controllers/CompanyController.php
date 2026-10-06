@@ -12,9 +12,26 @@ use Illuminate\View\View;
 
 class CompanyController extends Controller
 {
-    public function dashboard(): View
+    public function dashboard(Request $request): View
     {
-        return view('company.dashboard');
+        $company = $request->user()->company;
+
+        // ngitung statistik
+        $totalLowongan = $company->jobs()->count();
+        $lowonganAktif = $company->jobs()->where('status', 'open')->count();
+        $totalPelamar = Application::whereHas('job', function ($query) use ($company) {
+            $query->where('company_id', $company->id);
+        })->count();
+        $pelamarMenunggu = Application::whereHas('job', function ($query) use ($company) {
+            $query->where('company_id', $company->id);
+        })->where('status', 'pending')->count();
+
+        // ambil 5 terbaru
+        $pelamarTerbaru = Application::whereHas('job', function ($query) use ($company) {
+            $query->where('company_id', $company->id);
+        })->with('user', 'job')->latest()->take(5)->get();
+        
+        return view('company.dashboard', compact('totalLowongan', 'lowonganAktif', 'totalPelamar', 'pelamarMenunggu', 'pelamarTerbaru'));
     }
 
     public function profile(Request $request): View
@@ -151,9 +168,7 @@ class CompanyController extends Controller
 
         $application->update(['status' => 'accepted']);
 
-        return redirect()
-            ->route('company.lowongan.pelamar', $application->job_id)
-            ->with('success', 'Pelamar berhasil diterima.');
+        return back()->with('success', 'Pelamar berhasil diterima.');
     }
 
     public function tolakPelamar(Request $request, Application $application): RedirectResponse
@@ -162,8 +177,6 @@ class CompanyController extends Controller
 
         $application->update(['status' => 'rejected']);
 
-        return redirect()
-            ->route('company.lowongan.pelamar', $application->job_id)
-            ->with('success', 'Pelamar berhasil ditolak.');
+        return back()->with('success', 'Pelamar berhasil ditolak.');
     }
 }
