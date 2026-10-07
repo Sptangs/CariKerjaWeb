@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController; // Wajib ditambahkan di Laravel 11
+use App\Http\Controllers\ShuttleController;
+Route::resource('shuttles', ShuttleController::class);
 
 //INI BUAT LOKASI ROUTE ATAU WEB NYA atau URL gitulah
 Route::get('/', [PageController::class, 'index']);

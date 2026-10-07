@@ -15,3 +15,7 @@ class Shuttle extends Model
         'status_kerja',
     ];
 }
+// nama_armada
+// kapasitas
+//rute operasional
+// status aktif
