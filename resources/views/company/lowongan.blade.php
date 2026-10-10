@@ -3,10 +3,11 @@
 @section('title', 'Lowongan Saya')
 
 @section('dashboard-content')
-    <section class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
-        <div class="mb-6 flex items-center justify-between border-b border-slate-100 pb-5">
+    <section>
+        <div class="mb-5 flex items-center justify-between">
             <div>
-                <h1 class="text-2xl font-bold text-slate-900">Lowongan Saya</h1>
+                <p class="mt-1 text-xs font-bold text-blue-500">KELOLA REKRUTMEN</p>
+                <h1 class="text-3xl font-bold text-slate-900">Lowongan Saya</h1>
                 <p class="mt-1 text-sm text-slate-500">Kelola posisi, status, dan pelamar dalam satu tempat.</p>
             </div>
             <a href="{{ route('company.lowongan.create') }}" class="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700">
@@ -15,7 +16,7 @@
         </div>
 
         @if(session('success'))
-            <div class="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800">
+            <div>
                 {{ session('success') }}
             </div>
         @endif
@@ -29,9 +30,9 @@
                 </a>
             </div>
         @else
-            <div class="overflow-x-auto">
+            <div class="rounded-lg border border-slate-200 bg-white">
                 <table class="w-full text-left text-sm">
-                    <thead>
+                    <thead class="bg-slate-50">
                         <tr class="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">
                             <th class="px-4 py-3">Judul</th>
                             <th class="px-4 py-3">Lokasi</th>
@@ -57,13 +58,13 @@
                             </td>
                             <td class="px-4 py-3">
                                 <div class="flex items-center gap-2">
-                                    <a href="{{ route('company.lowongan.pelamar', $job) }}" class="text-blue-600 hover:underline text-xs font-semibold">Lihat Pelamar</a>
-                                    <a href="{{ route('company.lowongan.edit', $job) }}" class="text-slate-600 hover:underline text-xs font-semibold">Edit</a>
+                                    <a href="{{ route('company.lowongan.pelamar', $job) }}" class="rounded bg-100 border border-blue-200 px-3 py-2 font-semibold text-slate-800 hover:underline text-xs font-semibold">Lihat Pelamar</a>
+                                    <a href="{{ route('company.lowongan.edit', $job) }}" class="rounded bg-200 border border-slate-300 px-3 py-2 font-semibold text-slate-800 hover:underline text-xs font-semibold">Edit</a>
                                     @if($job->status === 'open')
                                         <form method="POST" action="{{ route('company.lowongan.tutup', $job) }}" onsubmit="return confirm('Tutup lowongan ini?')">
                                             @csrf
                                             @method('PUT')
-                                            <button type="submit" class="text-red-600 hover:underline text-xs font-semibold">Tutup</button>
+                                            <button type="submit" class="rounded bg-red-100 px-3 py-2 text-red-600 hover:underline text-xs font-semibold">Tutup</button>
                                         </form>
                                     @endif
                                 </div>
