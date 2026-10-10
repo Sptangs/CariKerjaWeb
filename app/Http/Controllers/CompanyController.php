@@ -103,6 +103,8 @@ class CompanyController extends Controller
             'description' => ['required', 'string'],
             'requirements' => ['required', 'string'],
             'status' => ['required', 'in:open,closed'],
+        ], [
+            'salary_max.gte' => 'Gaji maksimum harus lebih besar atau sama dengan gaji minimum.',
         ]);
 
         $request->user()->company->jobs()->create($validated);
