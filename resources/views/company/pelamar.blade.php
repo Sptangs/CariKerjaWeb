@@ -36,8 +36,8 @@
         <div class="mt-6 rounded-lg border border-slate-200 bg-white overflow-hidden">
             <table class="w-full text-left text-sm">
                 <thead class="bg-slate-50 text-slate-500">
-                    <tr>
-                        <th class="px-4 py-3">Nama</th>
+                    <tr class="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">
+                        <th class="px-4 py-3">Nama Pelamar</th>
                         <th class="px-4 py-3">Email</th>
                         <th class="px-4 py-3">Tanggal</th>
                         <th class="px-4 py-3">Cover Letter</th>
