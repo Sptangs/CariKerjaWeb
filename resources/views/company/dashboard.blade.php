@@ -47,7 +47,7 @@
             <table class="w-full text-left text-sm">
                 <thead class="bg-slate-50">
                     <tr class="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">
-                        <th class="px-4 py-3">Nama</th>
+                        <th class="px-4 py-3">Nama Pelamar</th>
                         <th class="px-4 py-3">Email</th>
                         <th class="px-4 py-3">Tanggal</th>
                         <th class="px-4 py-3">Cover Letter</th>
