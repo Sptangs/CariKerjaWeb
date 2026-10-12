@@ -62,10 +62,10 @@
                                 <td class="px-4 py-3">
                                     @if ($job->status === 'open')
                                         <span
-                                            class="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">Tersedia</span>
+                                            class="rounded-full bg-emerald-200 px-3 py-1 text-xs font-semibold text-emerald-800">Tersedia</span>
                                     @else
                                         <span
-                                            class="rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold text-slate-600">Ditutup</span>
+                                            class="rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold text-slate-800">Ditutup</span>
                                     @endif
                                 </td>
                                 <td class="px-4 py-3">
@@ -74,7 +74,7 @@
                                             class="rounded bg-100 border border-blue-200 px-3 py-2 font-semibold text-slate-800 hover:underline text-xs font-semibold">Lihat
                                             Pelamar</a>
                                         <a href="{{ route('company.lowongan.edit', $job) }}"
-                                            class="rounded bg-200 border border-slate-300 px-3 py-2 font-semibold text-slate-800 hover:underline text-xs font-semibold">Edit</a>
+                                            class="rounded bg-100 border border-slate-200 px-3 py-2 font-semibold text-slate-800 hover:underline text-xs font-semibold">Edit</a>
                                         @if ($job->status === 'open')
                                             <form method="POST" action="{{ route('company.lowongan.tutup', $job) }}"
                                                 onsubmit="return confirm('Tutup lowongan ini?')">
@@ -82,7 +82,7 @@
                                                 @method('PUT')
                                                 <button type="button"
                                                     onclick="bukaModalTutup('{{ route('company.lowongan.tutup', $job) }}')"
-                                                    class="rounded bg-red-600 px-3 py-2 text-xs font-semibold text-white hover:bg-red-700">
+                                                    class="rounded bg-red-600 px-3 py-2 text-xs font-semibold text-white">
                                                     Tutup
                                                 </button>
                                             </form>
