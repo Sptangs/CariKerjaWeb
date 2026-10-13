@@ -93,6 +93,8 @@ Route::middleware(['auth', 'role:company'])
             ->name('pelamar.terima');
         Route::put('/pelamar/{application}/tolak', [CompanyController::class, 'tolakPelamar'])
             ->name('pelamar.tolak');
+        Route::get('/pelamar/{application}/cv', [CompanyController::class, 'downloadCvPelamar'])
+            ->name('pelamar.cv');
     });
 
 Route::middleware(['auth', 'role:admin'])
