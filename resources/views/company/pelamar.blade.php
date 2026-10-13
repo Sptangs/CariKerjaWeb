@@ -49,30 +49,30 @@
                 <tbody>
                     @foreach($applications as $app)
                         <tr>
-                            <td class="px-4 py-3">{{ $app->user->name }}</td>
-                            <td class="px-4 py-3">{{ $app->user->email }}</td>
-                            <td class="px-4 py-3">{{ $app->created_at->format('d M Y') }}</td>
-                            <td class="px-4 py-3">
+                            <td class="px-4 py-3 font-semibold">{{ $app->user->name }}</td>
+                            <td class="px-4 py-3 text-slate-600">{{ $app->user->email }}</td>
+                            <td class="px-4 py-3 text-slate-600">{{ $app->created_at->format('d M Y') }}</td>
+                            <td class="px-4 py-3 text-slate-600">
                                 <button type="button" onclick="bukaModalCover('{{ $app->user->name }}', `{{ $app->cover_letter }}`)"
-                                    class="rounded border border-slate-300 px-3 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+                                    class="rounded bg-100 border border-blue-200 px-3 py-2 font-semibold text-slate-800 hover:underline text-xs font-semibold">
                                     Lihat
                                 </button>
                             </td>
                             <td class="px-4 py-3">
-                                <button type="button"
-                                    class="rounded border border-slate-300 px-3 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+                                <a href="{{ route('company.pelamar.cv', $app) }}"
+                                    class="rounded bg-100 border border-slate-200 px-3 py-2 font-semibold text-slate-800 hover:underline text-xs font-semibold">
                                     Unduh
-                                </button>
+                                </a>
                             </td>
                             <td class="px-4 py-3">
                                 @if ($app->status === 'pending')
                                     <span
-                                        class="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700">Menunggu</span>
+                                        class="rounded-full bg-amber-200 px-3 py-1 text-xs font-semibold text-amber-800">Menunggu</span>
                                 @elseif ($app->status === 'accepted')
                                     <span
-                                        class="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">Diterima</span>
+                                        class="rounded-full bg-emerald-200 px-3 py-1 text-xs font-semibold text-emerald-800">Diterima</span>
                                 @elseif ($app->status === 'rejected')
-                                    <span class="rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700">Ditolak</span>
+                                    <span class="rounded-full bg-red-200 px-3 py-1 text-xs font-semibold text-red-800">Ditolak</span>
                                 @endif
                             </td>
                             <td class="px-4 py-3">
@@ -82,13 +82,13 @@
                                             @csrf
                                             @method('PUT')
                                             <button type="submit"
-                                                class="bg-blue-600 text-white px-3 py-1 rounded text-xs font-semibold">Terima</button>
+                                                class="rounded bg-blue-600 px-3 py-2 text-xs font-semibold text-white">Terima</button>
                                         </form>
                                         <form method="POST" action="{{ route('company.pelamar.tolak', $app) }}">
                                             @csrf
                                             @method('PUT')
                                             <button type="submit"
-                                                class="bg-red-600 text-white px-3 py-1 rounded text-xs font-semibold">Tolak</button>
+                                                class="rounded bg-red-600 px-3 py-2 text-xs font-semibold text-white">Tolak</button>
                                         </form>
                                     </div>
                                 @else
