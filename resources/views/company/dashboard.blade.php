@@ -6,7 +6,7 @@
     <div class="mb-5">
         <p class="text-xs font-semibold uppercase tracking-wide text-blue-600">Ringkasan Perusahaan</p>
         <h1 class="text-3xl font-bold text-slate-900">Dashboard</h1>
-        <p class="text-sm text-slate-500 ">Pantau lowongan dan pelamar {{ auth()->user()->name }}.</p>
+        <p class="text-sm text-slate-500 ">Pantau lowongan dan pelamar {{ auth()->user()->company?->company_name ?? 'Perusahaan Anda' }}.</p>
     </div>
 
     {{-- 4 kotak --}}
@@ -51,7 +51,6 @@
                         <th class="px-4 py-3">Email</th>
                         <th class="px-4 py-3">Tanggal</th>
                         <th class="px-4 py-3">Cover Letter</th>
-                        <th class="px-4 py-3">CV</th>
                         <th class="px-4 py-3">Status</th>
                         <th class="px-4 py-3">Aksi</th>
                     </tr>
@@ -67,12 +66,6 @@
                                     onclick="munculCover('{{ $pelamar->user->name }}', `{{ $pelamar->cover_letter }}`)"
                                     class="rounded bg-100 border border-blue-200 px-3 py-2 font-semibold text-slate-800 hover:underline text-xs font-semibold">
                                     Lihat
-                                </button>
-                            </td>
-                            <td class="px-4 py-3 text-slate-600">
-                                <button type="button"
-                                    class="rounded bg-100 border border-blue-200 px-3 py-2 font-semibold text-slate-800 hover:underline text-xs font-semibold">
-                                    Unduh
                                 </button>
                             </td>
                             <td class="px-4 py-3 text-slate-600">
