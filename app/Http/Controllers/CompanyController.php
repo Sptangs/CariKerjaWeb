@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class CompanyController extends Controller
 {
@@ -30,7 +32,7 @@ class CompanyController extends Controller
         $pelamarTerbaru = Application::whereHas('job', function ($query) use ($company) {
             $query->where('company_id', $company->id);
         })->with('user', 'job')->latest()->take(5)->get();
-        
+
         return view('company.dashboard', compact('totalLowongan', 'lowonganAktif', 'totalPelamar', 'pelamarMenunggu', 'pelamarTerbaru'));
     }
 
@@ -180,5 +182,28 @@ class CompanyController extends Controller
         $application->update(['status' => 'rejected']);
 
         return back()->with('success', 'Pelamar berhasil ditolak.');
+    }
+
+    public function downloadCvPelamar(Request $request, Application $application): StreamedResponse
+    {
+        abort_if($application->job->company_id !== $request->user()->company->id, 403);
+
+        $cvPath = $application->user->jobSeekerProfile?->cv_path;
+
+        abort_unless(is_string($cvPath), 404);
+
+        $stream = Storage::disk('local')->readStream($cvPath);
+
+        if (!is_resource($stream)) {
+            abort(404);
+        }
+
+        return response()->streamDownload(function () use ($stream): void {
+            try {
+                fpassthru($stream);
+            } finally {
+                fclose($stream);
+            }
+        }, basename($cvPath));
     }
 }
