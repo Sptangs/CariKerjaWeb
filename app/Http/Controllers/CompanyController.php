@@ -91,7 +91,9 @@ class CompanyController extends Controller
 
     public function createLowongan(): View
     {
-        return view('company.buat-lowongan');
+        return view('company.buat-lowongan', [
+            'defaultLocation' => 'Madiun',
+        ]);
     }
 
     public function storeLowongan(Request $request): RedirectResponse
@@ -99,6 +101,7 @@ class CompanyController extends Controller
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'location' => ['required', 'string', 'max:255'],
+            
             'employment_type' => ['required', 'string', 'max:50'],
             'salary_min' => ['nullable', 'numeric', 'min:0'],
             'salary_max' => ['nullable', 'numeric', 'min:0', 'gte:salary_min'],
@@ -108,7 +111,7 @@ class CompanyController extends Controller
         ], [
             'salary_max.gte' => 'Gaji maksimum harus lebih besar atau sama dengan gaji minimum.',
         ]);
-
+        
         $request->user()->company->jobs()->create($validated);
 
         return redirect()
