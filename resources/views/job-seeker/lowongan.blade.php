@@ -4,7 +4,6 @@
 
 @section('dashboard-content')
 
-{{-- Header --}}
 <div class="mb-8">
     <div>
         <h1 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
@@ -18,9 +17,9 @@
 </div>
 
 
-{{-- Search & Filter --}}
-<div class="mb-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-    <div class="grid gap-3 md:grid-cols-3">
+<form method="GET" action="{{ url()->current() }}"
+    class="mb-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+    <div class="grid gap-3 md:grid-cols-4">
 
         {{-- Search --}}
         <div class="md:col-span-2">
@@ -44,11 +43,13 @@
                 <input
                     type="text"
                     id="search"
+                    name="search"
+                    value="{{ request('search') }}"
                     placeholder="Cari posisi atau perusahaan..."
                     class="w-full rounded-xl border border-slate-200 py-3 pl-11 pr-4 text-sm
-                               text-slate-700 outline-none transition
-                               placeholder:text-slate-400
-                               focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100">
+                           text-slate-700 outline-none transition
+                           placeholder:text-slate-400
+                           focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100">
             </div>
         </div>
 
@@ -60,23 +61,39 @@
 
             <select
                 id="location"
+                name="location"
                 class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm
-                           text-slate-700 outline-none transition
-                           focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100">
+                       text-slate-700 outline-none transition
+                       focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100">
                 <option value="">Semua Lokasi</option>
-                <option value="madiun">Madiun</option>
-                <option value="ponorogo">Ponorogo</option>
-                <option value="surabaya">Surabaya</option>
-                <option value="malang">Malang</option>
-                <option value="jakarta">Jakarta</option>
+                @foreach ($locations as $loc)
+                <option value="{{ $loc }}" @selected(request('location')===$loc)>
+                    {{ $loc }}
+                </option>
+                @endforeach
             </select>
         </div>
 
+        {{-- Actions --}}
+        <div class="flex items-end gap-2">
+            <button type="submit"
+                class="flex-1 rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white
+                           transition hover:bg-indigo-700">
+                Cari
+            </button>
+
+            @if (request()->hasAny(['search', 'location']))
+            <a href="{{ url()->current() }}"
+                class="rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold
+                          text-slate-600 transition hover:bg-slate-50">
+                Reset
+            </a>
+            @endif
+        </div>
+
     </div>
-</div>
+</form>
 
-
-{{-- Jumlah Lowongan --}}
 <div class="mb-5 flex items-center justify-between">
     <div>
         <h2 class="text-lg font-bold text-slate-900">
@@ -90,7 +107,6 @@
 </div>
 
 
-{{-- List Lowongan --}}
 @forelse ($jobs as $job)
 
 <div class="group mb-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm
@@ -145,7 +161,6 @@
 
     </div>
 
-    {{-- Deskripsi --}}
     @if ($job->description)
     <div class="mt-5 border-t border-slate-100 pt-4">
         <p class="line-clamp-2 text-sm leading-6 text-slate-500">
@@ -188,9 +203,9 @@
 @endforelse
 
 @if ($jobs->hasPages())
-    <div class="mt-6">
-        {{ $jobs->links() }}
-    </div>
+<div class="mt-6">
+    {{ $jobs->links() }}
+</div>
 @endif
 
 @endsection

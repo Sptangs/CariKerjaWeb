@@ -12,29 +12,88 @@ use Illuminate\Support\Facades\Auth;
 
 class JobSeekerController extends Controller
 {
-    public function dashboard(): View
-    {
-        return view('job-seeker.dashboard');
+public function dashboard(): View
+{
+    $user = Auth::user();
+
+    if (!($user instanceof User)) {
+        abort(403);
     }
 
-    public function lowongan(): View
-    {
-        $jobs = JobPosting::query()
-            ->select([
-                'id',
-                'company_id',
-                'title',
-                'location',
-                'employment_type',
-                'description',
-            ])
-            ->with('company:id,company_name')
-            ->latest()
-            ->paginate(10)
-            ->withQueryString();
+    $hasCv = filled($user->jobSeekerProfile?->cv_path);
 
-        return view('job-seeker.lowongan', compact('jobs'));
-    }
+    $totalApplications = $user->applications()->count();
+
+    $openJobs = JobPosting::query()
+        ->whereRaw('LOWER(status) = ?', ['open']);
+
+    $openJobsCount = (clone $openJobs)->count();
+
+    $latestJobs = (clone $openJobs)
+        ->select(['id', 'company_id', 'title', 'location', 'employment_type'])
+        ->with('company:id,company_name')
+        ->latest()
+        ->take(4)
+        ->get();
+
+    $recentApplications = $user->applications()
+        ->select(['id', 'job_id', 'user_id', 'status', 'created_at'])
+        ->with([
+            'job:id,company_id,title',
+            'job.company:id,company_name',
+        ])
+        ->latest()
+        ->take(3)
+        ->get();
+
+    return view('job-seeker.dashboard', compact(
+        'hasCv',
+        'totalApplications',
+        'openJobsCount',
+        'latestJobs',
+        'recentApplications'
+    ));
+}
+
+    public function lowongan(Request $request): View
+{
+    $search = trim((string) $request->query('search', ''));
+    $location = trim((string) $request->query('location', ''));
+
+    $locations = JobPosting::query()
+        ->whereNotNull('location')
+        ->where('location', '!=', '')
+        ->distinct()
+        ->orderBy('location')
+        ->pluck('location');
+
+    $jobs = JobPosting::query()
+        ->select([
+            'id',
+            'company_id',
+            'title',
+            'location',
+            'employment_type',
+            'description',
+        ])
+        ->with('company:id,company_name')
+        ->when($search !== '', function ($query) use ($search) {
+            $keyword = '%' . addcslashes($search, '%_\\') . '%';
+
+            $query->where(function ($q) use ($keyword) {
+                $q->where('title', 'like', $keyword)
+                    ->orWhereHas('company', function ($company) use ($keyword) {
+                        $company->where('company_name', 'like', $keyword);
+                    });
+            });
+        })
+        ->when($location !== '', fn ($query) => $query->where('location', $location))
+        ->latest()
+        ->paginate(10)
+        ->withQueryString();
+
+    return view('job-seeker.lowongan', compact('jobs', 'locations'));
+}
 
     public function riwayat(): View
     {
@@ -114,7 +173,7 @@ class JobSeekerController extends Controller
             ->route('job-seeker.riwayat')
             ->with('status', 'Lamaran berhasil dikirim.');
     }
-    
+
     public function formLamaran(Request $request, JobPosting $job)
     {
         $user = $request->user();
