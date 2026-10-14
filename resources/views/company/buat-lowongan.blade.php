@@ -37,7 +37,7 @@
                 <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                     <div>
                         <label for="location" class="mb-1.5 block font-semibold">Lokasi</label>
-                        <input id="location" name="location" value="{{ old('location') }}" required placeholder="Kota kerja"
+                        <input id="location" name="location" value="{{ old('location', 'madiun') }}" required placeholder="Kota kerja"
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100">
                     </div>
                     <div>

@@ -98,7 +98,7 @@ class CompanyController extends Controller
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'location' => ['required', 'string', 'max:255'],
+            'location' => ['required', 'string', 'max:255', 'default' => 'Madiun'],
             'employment_type' => ['required', 'string', 'max:50'],
             'salary_min' => ['nullable', 'numeric', 'min:0'],
             'salary_max' => ['nullable', 'numeric', 'min:0', 'gte:salary_min'],
