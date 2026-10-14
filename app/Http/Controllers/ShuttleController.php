@@ -8,7 +8,10 @@ use Illuminate\Http\Request;
 class ShuttleController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Menampilkan daftar shuttle dengan fitur filtering berdasarkan input 'search' dari form.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\View\View
      */
     public function index(Request $request)
     {
@@ -16,12 +19,14 @@ class ShuttleController extends Controller
         $shuttles = Shuttle::when($request->search, function ($query, $search) {
             return $query->where('nama', 'like', "%{$search}%");
         })->get();
-
         return view('shuttles.index', compact('shuttles'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Memperlihatkan form untuk membuat shuttle baru.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -30,17 +35,27 @@ class ShuttleController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Menyimpan shuttle baru ke dalam database setelah validasi.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        //
-          Shuttle::create($request->all());
-    return redirect()->route('shuttles.index');
+        // Menerapkan aturan validasi sebelum data disimpan
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'kapasitas' => 'required|integer|min:1',
+        ]);
+        Shuttle::create($request->all());
+        return redirect()->route('shuttles.index');
     }
 
     /**
-     * Display the specified resource.
+     * Menampilkan detail shuttle tertentu berdasarkan ID.
+     * 
+     * @param  string  $id
+     * @return \Illuminate\View\View
      */
     public function show(string $id)
     {
@@ -48,34 +63,47 @@ class ShuttleController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * menampilkan form untuk mengedit shuttle tertentu berdasarkan ID.
+     * 
+     * @param  string  $id
+     * @return \Illuminate\View\View
      */
     public function edit(string $id)
     {
         //
         $shuttle = Shuttle::findOrFail($id);
-    return view('shuttles.edit', compact('shuttle'));
+        return view('shuttles.edit', compact('shuttle'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Memperbarui shuttle tertentu berdasarkan ID setelah validasi.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, string $id)
     {
-        //
-    $shuttle = Shuttle::findOrFail($id);
-    $shuttle->update($request->all());
-    return redirect()->route('shuttles.index');
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'kapasitas' => 'required|integer|min:1',
+        ]);
+        $shuttle = Shuttle::findOrFail($id);
+        $shuttle->update($request->all());
+        return redirect()->route('shuttles.index');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Menghapus shuttle tertentu berdasarkan ID.
+     *
+     * @param  string  $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(string $id)
     {
         //
-    $shuttle = Shuttle::findOrFail($id);
-    $shuttle->delete();
-    return redirect()->route('shuttles.index');
+        $shuttle = Shuttle::findOrFail($id);
+        $shuttle->delete();
+        return redirect()->route('shuttles.index');
     }
 }

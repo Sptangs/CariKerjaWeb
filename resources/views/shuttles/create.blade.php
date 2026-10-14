@@ -8,22 +8,30 @@
 
 <body>
     <h1>Tambah Nama Shuttle</h1>
-
     <form method="POST" action="{{ route('shuttles.store') }}">
         @csrf
         <div>
             <label for="nama">Nama:</label><br>
-            <input type="text" name="nama" id="nama" required>
+            <input type="text" name="nama" id="nama" required value="{{ old('nama') }}">
+            @error('nama')
+                <p style="color: red;">{{ $message }}</p>
+            @enderror
         </div>
         <br>
         <div>
             <label for="umur">Umur (Tahun):</label><br>
-            <input type="number" name="umur" id="umur" min="0" required>
+            <input type="number" name="umur" id="umur" min="0" required value="{{ old('umur') }}">
+            @error('umur')
+                <p style="color: red;">{{ $message }}</p>
+            @enderror
         </div>
         <br>
         <div>
-            <label for="keahlian">Keahlian  yang dimiliki</label><br>
-            <input type="text" name="keahlian" id="keahlian" placeholder="Contoh: K">
+            <label for="keahlian">Keahlian yang dimiliki</label><br>
+            <input type="text" name="keahlian" id="keahlian" placeholder="Contoh: K" value="{{ old('keahlian') }}">
+            @error('keahlian')
+                <p style="color: red;">{{ $message }}</p>
+            @enderror
         </div>
         <br>
         <div>
@@ -43,12 +51,10 @@
         </div>
         <br>
         <button type="submit">Simpan</button>
-    <form action="{{ route('shuttles.store') }}" method="POST">
-        @csrf
-  
-
-    <br>
-    <a href="{{ route('shuttles.index') }}">&larr; Kembali ke Daftar</a>
+        <form action="{{ route('shuttles.store') }}" method="POST">
+            @csrf
+            <br>
+            <a href="{{ route('shuttles.index') }}">&larr; Kembali ke Daftar</a>
 </body>
 
 </html>
