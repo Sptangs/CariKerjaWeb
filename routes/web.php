@@ -71,8 +71,6 @@ Route::middleware(['auth', 'role:company'])
 
         Route::put('/profile', [CompanyController::class, 'updateProfile'])
             ->name('profile.update');
-
-        //lowongan
         Route::get('/lowongan', [CompanyController::class, 'lowongan'])
             ->name('lowongan');
         Route::get('/lowongan/create', [CompanyController::class, 'createLowongan'])
@@ -85,8 +83,6 @@ Route::middleware(['auth', 'role:company'])
             ->name('lowongan.update');
         Route::put('/lowongan/{jobPosting}/tutup', [CompanyController::class, 'tutupLowongan'])
             ->name('lowongan.tutup');
-
-        //pelamar
         Route::get('/lowongan/{jobPosting}/pelamar', [CompanyController::class, 'pelamar'])
             ->name('lowongan.pelamar');
         Route::put('/pelamar/{application}/terima', [CompanyController::class, 'terimaPelamar'])
