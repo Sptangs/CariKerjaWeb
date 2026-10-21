@@ -20,6 +20,13 @@ public function dashboard(): View
         abort(403);
     }
 
+<<<<<<< HEAD
+public function lowongan(Request $request): View
+{
+    $search = $request->input('search');
+    $location = $request->input('location');
+
+=======
     $hasCv = filled($user->jobSeekerProfile?->cv_path);
 
     $totalApplications = $user->applications()->count();
@@ -67,6 +74,7 @@ public function dashboard(): View
         ->orderBy('location')
         ->pluck('location');
 
+>>>>>>> fff8e52fb9df07583456e5958337e82af7b6ec95
     $jobs = JobPosting::query()
         ->select([
             'id',
@@ -77,6 +85,28 @@ public function dashboard(): View
             'description',
         ])
         ->with('company:id,company_name')
+<<<<<<< HEAD
+
+        // Search berdasarkan posisi atau perusahaan
+        ->when($search, function ($query, $search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%')
+                    ->orWhereHas('company', function ($company) use ($search) {
+                        $company->where(
+                            'company_name',
+                            'like',
+                            '%' . $search . '%'
+                        );
+                    });
+            });
+        })
+
+        ->when($location, function ($query, $location) {
+            $query->where('location', $location);
+        })
+
+=======
         ->when($search !== '', function ($query) use ($search) {
             $keyword = '%' . addcslashes($search, '%_\\') . '%';
 
@@ -88,11 +118,28 @@ public function dashboard(): View
             });
         })
         ->when($location !== '', fn ($query) => $query->where('location', $location))
+>>>>>>> fff8e52fb9df07583456e5958337e82af7b6ec95
         ->latest()
         ->paginate(10)
         ->withQueryString();
 
+<<<<<<< HEAD
+    $locations = JobPosting::query()
+        ->whereNotNull('location')
+        ->where('location', '!=', '')
+        ->distinct()
+        ->orderBy('location')
+        ->pluck('location');
+
+    return view('job-seeker.lowongan', compact(
+        'jobs',
+        'locations',
+        'search',
+        'location'
+    ));
+=======
     return view('job-seeker.lowongan', compact('jobs', 'locations'));
+>>>>>>> fff8e52fb9df07583456e5958337e82af7b6ec95
 }
 
     public function riwayat(): View

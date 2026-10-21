@@ -4,11 +4,34 @@
 
 @section('dashboard-content')
 
+<<<<<<< HEAD
+    {{-- Hero Section --}}
+    <section class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-600 via-indigo-700 to-blue-700 px-8 py-10 text-white shadow-xl md:px-12 md:py-14">
+
+        {{-- Background Decoration --}}
+        <div class="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-white/10"></div>
+        <div class="absolute -bottom-24 -left-20 h-72 w-72 rounded-full bg-blue-400/10"></div>
+
+        <div class="relative max-w-3xl">
+
+            <span class="inline-flex items-center rounded-full bg-white/15 px-4 py-1.5 text-sm font-medium text-indigo-50 ring-1 ring-white/20">
+                Temukan Karier Impianmu
+            </span>
+
+            <h1 class="mt-5 text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">
+                Halo, {{ auth()->user()->name }}! 👋
+            </h1>
+
+            <p class="mt-5 max-w-2xl text-base leading-7 text-indigo-100 sm:text-lg">
+                Temukan lowongan pekerjaan yang sesuai dengan kemampuan,
+                pengalaman, dan tujuan kariermu.
+=======
     {{-- Hero --}}
     <section class="relative overflow-hidden rounded-2xl bg-indigo-700 px-6 py-8 sm:px-8 sm:py-10 lg:px-10">
         <div class="relative z-10 max-w-3xl">
             <p class="text-sm font-medium text-indigo-200">
                 Dashboard pencari kerja
+>>>>>>> fff8e52fb9df07583456e5958337e82af7b6ec95
             </p>
 
             <h1 class="mt-3 text-3xl font-bold tracking-tight text-white sm:text-4xl">

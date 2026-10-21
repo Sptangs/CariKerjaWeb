@@ -17,9 +17,18 @@
 </div>
 
 
+<<<<<<< HEAD
+<form
+    method="GET"
+    action="{{ route('job-seeker.lowongan') }}"
+    class="mb-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
+>
+    <div class="grid gap-3 md:grid-cols-3">
+=======
 <form method="GET" action="{{ url()->current() }}"
     class="mb-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
     <div class="grid gap-3 md:grid-cols-4">
+>>>>>>> fff8e52fb9df07583456e5958337e82af7b6ec95
 
         {{-- Search --}}
         <div class="md:col-span-2">
@@ -32,24 +41,35 @@
                     class="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400"
                     fill="none"
                     stroke="currentColor"
-                    viewBox="0 0 24 24">
+                    viewBox="0 0 24 24"
+                >
                     <path
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         stroke-width="2"
-                        d="m21 21-4.35-4.35m0 0A7.5 7.5 0 1 0 6.04 6.04a7.5 7.5 0 0 0 10.61 10.61Z" />
+                        d="m21 21-4.35-4.35m0 0A7.5 7.5 0 1 0 6.04 6.04a7.5 7.5 0 0 0 10.61 10.61Z"
+                    />
                 </svg>
 
                 <input
                     type="text"
                     id="search"
                     name="search"
+<<<<<<< HEAD
+                    value="{{ $search ?? '' }}"
+=======
                     value="{{ request('search') }}"
+>>>>>>> fff8e52fb9df07583456e5958337e82af7b6ec95
                     placeholder="Cari posisi atau perusahaan..."
                     class="w-full rounded-xl border border-slate-200 py-3 pl-11 pr-4 text-sm
                            text-slate-700 outline-none transition
                            placeholder:text-slate-400
+<<<<<<< HEAD
+                           focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                >
+=======
                            focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100">
+>>>>>>> fff8e52fb9df07583456e5958337e82af7b6ec95
             </div>
         </div>
 
@@ -64,12 +84,26 @@
                 name="location"
                 class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm
                        text-slate-700 outline-none transition
+<<<<<<< HEAD
+                       focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+            >
+                <option value="">Semua Lokasi</option>
+
+                @foreach ($locations as $item)
+                    <option
+                        value="{{ $item }}"
+                        {{ ($location ?? '') === $item ? 'selected' : '' }}
+                    >
+                        {{ $item }}
+                    </option>
+=======
                        focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100">
                 <option value="">Semua Lokasi</option>
                 @foreach ($locations as $loc)
                 <option value="{{ $loc }}" @selected(request('location')===$loc)>
                     {{ $loc }}
                 </option>
+>>>>>>> fff8e52fb9df07583456e5958337e82af7b6ec95
                 @endforeach
             </select>
         </div>
@@ -92,6 +126,30 @@
         </div>
 
     </div>
+<<<<<<< HEAD
+
+    {{-- Tombol --}}
+    <div class="mt-4 flex gap-2">
+        <button
+            type="submit"
+            class="rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white
+                   transition hover:bg-indigo-700"
+        >
+            Cari
+        </button>
+
+        @if (($search ?? '') || ($location ?? ''))
+            <a
+                href="{{ route('job-seeker.lowongan') }}"
+                class="rounded-xl border border-slate-200 px-5 py-2.5 text-sm
+                       font-semibold text-slate-600 transition hover:bg-slate-50"
+            >
+                Reset
+            </a>
+        @endif
+    </div>
+=======
+>>>>>>> fff8e52fb9df07583456e5958337e82af7b6ec95
 </form>
 
 <div class="mb-5 flex items-center justify-between">
