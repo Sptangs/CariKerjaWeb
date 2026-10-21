@@ -17,24 +17,59 @@ class JobSeekerController extends Controller
         return view('job-seeker.dashboard');
     }
 
-    public function lowongan(): View
-    {
-        $jobs = JobPosting::query()
-            ->select([
-                'id',
-                'company_id',
-                'title',
-                'location',
-                'employment_type',
-                'description',
-            ])
-            ->with('company:id,company_name')
-            ->latest()
-            ->paginate(10)
-            ->withQueryString();
+public function lowongan(Request $request): View
+{
+    $search = $request->input('search');
+    $location = $request->input('location');
 
-        return view('job-seeker.lowongan', compact('jobs'));
-    }
+    $jobs = JobPosting::query()
+        ->select([
+            'id',
+            'company_id',
+            'title',
+            'location',
+            'employment_type',
+            'description',
+        ])
+        ->with('company:id,company_name')
+
+        // Search berdasarkan posisi atau perusahaan
+        ->when($search, function ($query, $search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%')
+                    ->orWhereHas('company', function ($company) use ($search) {
+                        $company->where(
+                            'company_name',
+                            'like',
+                            '%' . $search . '%'
+                        );
+                    });
+            });
+        })
+
+        ->when($location, function ($query, $location) {
+            $query->where('location', $location);
+        })
+
+        ->latest()
+        ->paginate(10)
+        ->withQueryString();
+
+    $locations = JobPosting::query()
+        ->whereNotNull('location')
+        ->where('location', '!=', '')
+        ->distinct()
+        ->orderBy('location')
+        ->pluck('location');
+
+    return view('job-seeker.lowongan', compact(
+        'jobs',
+        'locations',
+        'search',
+        'location'
+    ));
+}
 
     public function riwayat(): View
     {

@@ -18,8 +18,11 @@
 </div>
 
 
-{{-- Search & Filter --}}
-<div class="mb-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+<form
+    method="GET"
+    action="{{ route('job-seeker.lowongan') }}"
+    class="mb-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
+>
     <div class="grid gap-3 md:grid-cols-3">
 
         {{-- Search --}}
@@ -33,22 +36,27 @@
                     class="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400"
                     fill="none"
                     stroke="currentColor"
-                    viewBox="0 0 24 24">
+                    viewBox="0 0 24 24"
+                >
                     <path
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         stroke-width="2"
-                        d="m21 21-4.35-4.35m0 0A7.5 7.5 0 1 0 6.04 6.04a7.5 7.5 0 0 0 10.61 10.61Z" />
+                        d="m21 21-4.35-4.35m0 0A7.5 7.5 0 1 0 6.04 6.04a7.5 7.5 0 0 0 10.61 10.61Z"
+                    />
                 </svg>
 
                 <input
                     type="text"
                     id="search"
+                    name="search"
+                    value="{{ $search ?? '' }}"
                     placeholder="Cari posisi atau perusahaan..."
                     class="w-full rounded-xl border border-slate-200 py-3 pl-11 pr-4 text-sm
-                               text-slate-700 outline-none transition
-                               placeholder:text-slate-400
-                               focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100">
+                           text-slate-700 outline-none transition
+                           placeholder:text-slate-400
+                           focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                >
             </div>
         </div>
 
@@ -60,20 +68,47 @@
 
             <select
                 id="location"
+                name="location"
                 class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm
-                           text-slate-700 outline-none transition
-                           focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100">
+                       text-slate-700 outline-none transition
+                       focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+            >
                 <option value="">Semua Lokasi</option>
-                <option value="madiun">Madiun</option>
-                <option value="ponorogo">Ponorogo</option>
-                <option value="surabaya">Surabaya</option>
-                <option value="malang">Malang</option>
-                <option value="jakarta">Jakarta</option>
+
+                @foreach ($locations as $item)
+                    <option
+                        value="{{ $item }}"
+                        {{ ($location ?? '') === $item ? 'selected' : '' }}
+                    >
+                        {{ $item }}
+                    </option>
+                @endforeach
             </select>
         </div>
 
     </div>
-</div>
+
+    {{-- Tombol --}}
+    <div class="mt-4 flex gap-2">
+        <button
+            type="submit"
+            class="rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white
+                   transition hover:bg-indigo-700"
+        >
+            Cari
+        </button>
+
+        @if (($search ?? '') || ($location ?? ''))
+            <a
+                href="{{ route('job-seeker.lowongan') }}"
+                class="rounded-xl border border-slate-200 px-5 py-2.5 text-sm
+                       font-semibold text-slate-600 transition hover:bg-slate-50"
+            >
+                Reset
+            </a>
+        @endif
+    </div>
+</form>
 
 
 {{-- Jumlah Lowongan --}}

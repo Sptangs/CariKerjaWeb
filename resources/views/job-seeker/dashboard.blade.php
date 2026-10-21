@@ -14,7 +14,7 @@
         <div class="relative max-w-3xl">
 
             <span class="inline-flex items-center rounded-full bg-white/15 px-4 py-1.5 text-sm font-medium text-indigo-50 ring-1 ring-white/20">
-                🚀 Temukan Karier Impianmu
+                Temukan Karier Impianmu
             </span>
 
             <h1 class="mt-5 text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">
