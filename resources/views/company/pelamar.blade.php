@@ -1,0 +1,123 @@
+@extends('layouts.company')
+
+@section('title', 'Pelamar Lowongan')
+
+@section('dashboard-content')
+    <p class="text-xs font-bold uppercase tracking-wide text-blue-500">{{ $jobPosting->title }}</p>
+    <h1 class="text-3xl font-bold text-slate-900">Pelamar Lowongan</h1>
+    <p class="mt-1 text-sm text-slate-500">Tinjau {{ $applications->count() }} kandidat untuk posisi
+        {{ $jobPosting->title }} di {{ $jobPosting->location }}
+    </p>
+
+    @if (session('success'))
+        <div class="mb-6 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if($applications->isEmpty())
+        <div class="mt-6 rounded-lg border border-slate-200 bg-white p-12 text-center">
+            <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-50">
+                <svg class="h-8 w-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 8.25l4.5 4.5m0-4.5l-4.5 4.5" />
+                </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-slate-700">Belum ada pelamar</h3>
+            <p class="mt-2 text-sm text-slate-500">Lowongan ini belum menerima lamaran. Bagikan lowongan untuk menjangkau lebih
+                banyak kandidat.</p>
+            <a href="{{ route('company.lowongan') }}"
+                class="mt-4 inline-block rounded-lg border border-slate-300 px-5 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                Kembali ke Lowongan
+            </a>
+        </div>
+    @else
+        <div class="mt-6 rounded-lg border border-slate-200 bg-white overflow-hidden">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-slate-50 text-slate-500">
+                    <tr class="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">
+                        <th class="px-4 py-3">Nama Pelamar</th>
+                        <th class="px-4 py-3">Email</th>
+                        <th class="px-4 py-3">Tanggal</th>
+                        <th class="px-4 py-3">Cover Letter</th>
+                        <th class="px-4 py-3">CV</th>
+                        <th class="px-4 py-3">Status</th>
+                        <th class="px-4 py-3">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($applications as $app)
+                        <tr>
+                            <td class="px-4 py-3 font-semibold">{{ $app->user->name }}</td>
+                            <td class="px-4 py-3 text-slate-600">{{ $app->user->email }}</td>
+                            <td class="px-4 py-3 text-slate-600">{{ $app->created_at->format('d M Y') }}</td>
+                            <td class="px-4 py-3 text-slate-600">
+                                <button type="button" onclick="bukaModalCover('{{ $app->user->name }}', `{{ $app->cover_letter }}`)"
+                                    class="rounded bg-100 border border-blue-200 px-3 py-2 font-semibold text-slate-800 hover:underline text-xs font-semibold">
+                                    Lihat
+                                </button>
+                            </td>
+                            <td class="px-4 py-3">
+                                <a href="{{ route('company.pelamar.cv', $app) }}"
+                                    class="rounded bg-100 border border-slate-200 px-3 py-2 font-semibold text-slate-800 hover:underline text-xs font-semibold">
+                                    Unduh
+                                </a>
+                            </td>
+                            <td class="px-4 py-3">
+                                @if ($app->status === 'pending')
+                                    <span
+                                        class="rounded-full bg-amber-200 px-3 py-1 text-xs font-semibold text-amber-800">Menunggu</span>
+                                @elseif ($app->status === 'accepted')
+                                    <span
+                                        class="rounded-full bg-emerald-200 px-3 py-1 text-xs font-semibold text-emerald-800">Diterima</span>
+                                @elseif ($app->status === 'rejected')
+                                    <span class="rounded-full bg-red-200 px-3 py-1 text-xs font-semibold text-red-800">Ditolak</span>
+                                @endif
+                            </td>
+                            <td class="px-4 py-3">
+                                @if($app->status === 'pending')
+                                    <div class="flex gap-2">
+                                        <form method="POST" action="{{ route('company.pelamar.terima', $app) }}">
+                                            @csrf
+                                            @method('PUT')
+                                            <button type="submit"
+                                                class="rounded bg-blue-600 px-3 py-2 text-xs font-semibold text-white">Terima</button>
+                                        </form>
+                                        <form method="POST" action="{{ route('company.pelamar.tolak', $app) }}">
+                                            @csrf
+                                            @method('PUT')
+                                            <button type="submit"
+                                                class="rounded bg-red-600 px-3 py-2 text-xs font-semibold text-white">Tolak</button>
+                                        </form>
+                                    </div>
+                                @else
+                                    <span class="text-slate-400">-</span>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <dialog id="modalCover" class="m-auto rounded-lg p-0 backdrop:bg-slate-900/50">
+                <div class="w-[500px] rounded-lg bg-white p-6">
+                    <h3 class="text-lg font-bold text-slate-900">Cover Letter — <span id="coverNama"></span></h3>
+                    <p class="mt-4 whitespace-pre-line text-sm text-slate-700" id="coverIsi"></p>
+                    <div class="mt-6 flex justify-end">
+                        <button type="button" onclick="document.getElementById('modalCover').close()"
+                            class="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                            Tutup
+                        </button>
+                    </div>
+                </div>
+            </dialog>
+            <script>
+                function bukaModalCover(nama, cover) {
+                    document.getElementById('coverNama').textContent = nama;
+                    document.getElementById('coverIsi').textContent = cover || 'Tidak ada cover letter.';
+                    document.getElementById('modalCover').showModal();
+                }
+            </script>
+        </div>
+    @endif
+@endsection
