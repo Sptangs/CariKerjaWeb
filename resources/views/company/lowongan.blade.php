@@ -81,7 +81,8 @@
                                                 @csrf
                                                 @method('PUT')
                                                 <button type="button"
-                                                    onclick="bukaModalTutup('{{ route('company.lowongan.tutup', $job) }}')"
+                                                    data-action="{{ route('company.lowongan.tutup', $job) }}"
+                                                    onclick="bukaModalTutup(this.dataset.action)"
                                                     class="rounded bg-red-600 px-3 py-2 text-xs font-semibold text-white">
                                                     Tutup
                                                 </button>

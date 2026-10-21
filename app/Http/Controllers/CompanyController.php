@@ -17,8 +17,6 @@ class CompanyController extends Controller
     public function dashboard(Request $request): View
     {
         $company = $request->user()->company;
-
-        // ngitung statistik
         $totalLowongan = $company->jobs()->count();
         $lowonganAktif = $company->jobs()->where('status', 'open')->count();
         $totalPelamar = Application::whereHas('job', function ($query) use ($company) {
@@ -28,7 +26,6 @@ class CompanyController extends Controller
             $query->where('company_id', $company->id);
         })->where('status', 'pending')->count();
 
-        // ambil 5 terbaru
         $pelamarTerbaru = Application::whereHas('job', function ($query) use ($company) {
             $query->where('company_id', $company->id);
         })->with('user', 'job')->latest()->take(5)->get();

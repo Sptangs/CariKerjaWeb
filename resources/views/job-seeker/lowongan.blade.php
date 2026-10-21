@@ -16,19 +16,8 @@
     </div>
 </div>
 
-
-<<<<<<< HEAD
-<form
-    method="GET"
-    action="{{ route('job-seeker.lowongan') }}"
-    class="mb-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
->
-    <div class="grid gap-3 md:grid-cols-3">
-=======
-<form method="GET" action="{{ url()->current() }}"
-    class="mb-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+<form method="GET" action="{{ route('job-seeker.lowongan') }}" class="mb-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
     <div class="grid gap-3 md:grid-cols-4">
->>>>>>> fff8e52fb9df07583456e5958337e82af7b6ec95
 
         {{-- Search --}}
         <div class="md:col-span-2">
@@ -55,21 +44,10 @@
                     type="text"
                     id="search"
                     name="search"
-<<<<<<< HEAD
-                    value="{{ $search ?? '' }}"
-=======
                     value="{{ request('search') }}"
->>>>>>> fff8e52fb9df07583456e5958337e82af7b6ec95
                     placeholder="Cari posisi atau perusahaan..."
-                    class="w-full rounded-xl border border-slate-200 py-3 pl-11 pr-4 text-sm
-                           text-slate-700 outline-none transition
-                           placeholder:text-slate-400
-<<<<<<< HEAD
-                           focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                    class="w-full rounded-xl border border-slate-200 py-3 pl-11 pr-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
                 >
-=======
-                           focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100">
->>>>>>> fff8e52fb9df07583456e5958337e82af7b6ec95
             </div>
         </div>
 
@@ -82,74 +60,31 @@
             <select
                 id="location"
                 name="location"
-                class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm
-                       text-slate-700 outline-none transition
-<<<<<<< HEAD
-                       focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
             >
                 <option value="">Semua Lokasi</option>
-
-                @foreach ($locations as $item)
-                    <option
-                        value="{{ $item }}"
-                        {{ ($location ?? '') === $item ? 'selected' : '' }}
-                    >
-                        {{ $item }}
-                    </option>
-=======
-                       focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100">
-                <option value="">Semua Lokasi</option>
                 @foreach ($locations as $loc)
-                <option value="{{ $loc }}" @selected(request('location')===$loc)>
-                    {{ $loc }}
-                </option>
->>>>>>> fff8e52fb9df07583456e5958337e82af7b6ec95
+                    <option value="{{ $loc }}" @selected(request('location') === $loc)>
+                        {{ $loc }}
+                    </option>
                 @endforeach
             </select>
         </div>
 
         {{-- Actions --}}
         <div class="flex items-end gap-2">
-            <button type="submit"
-                class="flex-1 rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white
-                           transition hover:bg-indigo-700">
+            <button type="submit" class="flex-1 rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700">
                 Cari
             </button>
 
             @if (request()->hasAny(['search', 'location']))
-            <a href="{{ url()->current() }}"
-                class="rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold
-                          text-slate-600 transition hover:bg-slate-50">
-                Reset
-            </a>
+                <a href="{{ route('job-seeker.lowongan') }}" class="rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
+                    Reset
+                </a>
             @endif
         </div>
 
     </div>
-<<<<<<< HEAD
-
-    {{-- Tombol --}}
-    <div class="mt-4 flex gap-2">
-        <button
-            type="submit"
-            class="rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white
-                   transition hover:bg-indigo-700"
-        >
-            Cari
-        </button>
-
-        @if (($search ?? '') || ($location ?? ''))
-            <a
-                href="{{ route('job-seeker.lowongan') }}"
-                class="rounded-xl border border-slate-200 px-5 py-2.5 text-sm
-                       font-semibold text-slate-600 transition hover:bg-slate-50"
-            >
-                Reset
-            </a>
-        @endif
-    </div>
-=======
->>>>>>> fff8e52fb9df07583456e5958337e82af7b6ec95
 </form>
 
 <div class="mb-5 flex items-center justify-between">
@@ -164,20 +99,16 @@
     </div>
 </div>
 
-
 @forelse ($jobs as $job)
 
-<div class="group mb-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm
-                    transition hover:-translate-y-0.5 hover:border-indigo-200 hover:shadow-md">
-
+<div class="group mb-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-indigo-200 hover:shadow-md">
     <div class="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
 
         {{-- Informasi Lowongan --}}
         <div class="flex gap-4">
 
             {{-- Logo Perusahaan --}}
-            <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl
-                                bg-indigo-50 text-lg font-bold text-indigo-600">
+            <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-lg font-bold text-indigo-600">
                 {{ strtoupper(substr($job->company->company_name ?? 'P', 0, 1)) }}
             </div>
 
@@ -191,40 +122,33 @@
                 </p>
 
                 <div class="mt-3 flex flex-wrap gap-2 text-xs text-slate-500">
-
                     @if ($job->location)
-                    <span class="rounded-lg bg-slate-100 px-3 py-1.5">
-                        📍 {{ $job->location }}
-                    </span>
+                        <span class="rounded-lg bg-slate-100 px-3 py-1.5">
+                            📍 {{ $job->location }}
+                        </span>
                     @endif
 
                     @if ($job->employment_type)
-                    <span class="rounded-lg bg-indigo-50 px-3 py-1.5 text-indigo-700">
-                        💼 {{ $job->employment_type }}
-                    </span>
+                        <span class="rounded-lg bg-indigo-50 px-3 py-1.5 text-indigo-700">
+                            💼 {{ $job->employment_type }}
+                        </span>
                     @endif
-
                 </div>
             </div>
         </div>
 
-
-        <a
-            href="{{ route('job-seeker.lowongan.detail', $job->id) }}"
-            class="inline-flex w-full items-center justify-center rounded-xl
-           bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white
-           transition hover:bg-indigo-700 sm:w-auto">
+        <a href="{{ route('job-seeker.lowongan.detail', $job->id) }}" class="inline-flex w-full items-center justify-center rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-700 sm:w-auto">
             Lihat Detail
         </a>
 
     </div>
 
     @if ($job->description)
-    <div class="mt-5 border-t border-slate-100 pt-4">
-        <p class="line-clamp-2 text-sm leading-6 text-slate-500">
-            {{ $job->description }}
-        </p>
-    </div>
+        <div class="mt-5 border-t border-slate-100 pt-4">
+            <p class="line-clamp-2 text-sm leading-6 text-slate-500">
+                {{ $job->description }}
+            </p>
+        </div>
     @endif
 
 </div>
@@ -234,16 +158,8 @@
 <div class="rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-14 text-center">
 
     <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-slate-100">
-        <svg
-            class="h-8 w-8 text-slate-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-            <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M20 13V7a2 2 0 0 0-2-2h-3l-1-2H10L9 5H6a2 2 0 0 0-2 2v6m16 0v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-4m16 0H4" />
+        <svg class="h-8 w-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V7a2 2 0 0 0-2-2h-3l-1-2H10L9 5H6a2 2 0 0 0-2 2v6m16 0v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-4m16 0H4" />
         </svg>
     </div>
 
