@@ -38,6 +38,11 @@
                    {{ request()->routeIs('company.lowongan.create') ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100' }}">
                     Buat Lowongan
                 </a>
+                <a href="{{ route('company.category.index') }}"
+                    class="block px-4 py-2.5 rounded-lg text-sm font-medium transition
+                {{ request()->routeIs('company.category*') ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100' }}">
+                    Kategori Lowongan
+                </a>
                 <form method="POST" action="{{ route('logout') }}" class="border-t border-slate-800 pt-4 mt-4">
                     @csrf
                     <button type="submit"
@@ -50,7 +55,8 @@
 
         <div class="flex-1 flex flex-col">
             <header class="bg-white border-b border-slate-200 px-8 py-4 flex justify-end">
-                <span class="text-lg font-bold">{{ auth()->user()->company?->company_name ?? auth()->user()->name }}</span>
+                <span
+                    class="text-lg font-bold">{{ auth()->user()->company?->company_name ?? auth()->user()->name }}</span>
             </header>
 
             {{-- konten --}}

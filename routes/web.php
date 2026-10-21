@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\JobSeekerController;
 use App\Http\Controllers\JobSeekerProfileController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AuthController::class, 'start'])->name('home');
@@ -91,6 +92,8 @@ Route::middleware(['auth', 'role:company'])
             ->name('pelamar.tolak');
         Route::get('/pelamar/{application}/cv', [CompanyController::class, 'downloadCvPelamar'])
             ->name('pelamar.cv');
+
+        Route::resource('category', CategoryController::class);
     });
 
 Route::middleware(['auth', 'role:admin'])
