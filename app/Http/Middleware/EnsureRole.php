@@ -8,10 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class EnsureRole
 {
-    /**
-     * Izinkan request hanya jika role user yang login sesuai.
-     * Pemakaian di route: ->middleware('role:company')
-     */
     public function handle(Request $request, Closure $next, string $role): Response
     {
         $user = $request->user();
