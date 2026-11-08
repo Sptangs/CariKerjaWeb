@@ -25,4 +25,11 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Personal AI coding setup
+/.agents/
+/.opencode/
+/opencode.json
+/opencode.md
+/skills-lock.json
 .github/skills/
