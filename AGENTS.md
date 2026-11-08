@@ -145,3 +145,44 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 - Run `vendor/bin/phpunit` to call the test runner directly. It accepts the same file path and `--filter=testName` arguments.
 
 </laravel-boost-guidelines>
+
+# CariKerja Project Guidelines
+
+## Architecture
+
+- Backend: Laravel MVC on PHP 8.3, Eloquent ORM, Laravel API endpoints, JSON requests and responses, and API Resources for API output.
+- Use Form Requests for request validation and Policies, Gates, or middleware for server-side authorization. Keep controllers focused and reuse existing business logic.
+- Frontend: Laravel Blade (`.blade.php`), Tailwind CSS at the installed version, JavaScript Fetch API, and Vite. Reuse existing Blade components and frontend utilities.
+- Frontend data flow: Browser → Blade → JavaScript Fetch API → Laravel API → Controller → Model/Database.
+- Frontend CRUD and data retrieval must use Laravel API endpoints and JSON responses. Do not access the database directly from JavaScript or duplicate API endpoints or business logic.
+- Do not use Inertia.js, React, Vue.js, or a separate frontend application. Follow the existing authentication architecture and protect endpoints with appropriate authentication, authorization, and CSRF protection.
+
+## Installed Skills
+
+Read and apply the relevant skill's `SKILL.md` before work in its domain. Skills are available under `.agents/skills/` when installed locally:
+
+- `laravel-best-practices` — prioritize for Laravel architecture, PHP, Eloquent, controllers, validation, and APIs.
+- `laravel-owasp-security` — use for security-sensitive implementation and security audits.
+- `laravel-testing` — use when writing or changing automated tests.
+- `code-slop` — use for code-quality reviews and AI-pattern audits.
+- `laravel-inertia-react` — do not use for this project's frontend implementation; the project uses Blade and Fetch.
+
+## Development Standards
+
+- Inspect existing implementations and related tests before creating files; reuse models, controllers, services, components, and utilities.
+- Preserve existing job-seeker and company functionality. Refactor existing code when needed; avoid duplicate logic and unnecessary abstractions.
+- Do not add dependencies or change the database schema without approval or a clear requirement.
+- Validate all incoming API data, authorize every protected operation on the server, and keep JSON response structures consistent.
+- Frontend requests must handle loading, success, validation, and network-error states.
+- Add feature tests for important behavior, especially authentication, authorization, and API flows. Run the narrowest relevant tests and run Laravel Pint after modifying PHP files.
+
+## Working Behavior
+
+1. Inspect the relevant implementation, routes, and tests.
+2. Read applicable project rules and activate the relevant installed skill.
+3. Choose the smallest implementation that meets the request and preserves existing behavior.
+4. Implement the change rather than returning only a plan or example.
+5. Run relevant tests and required formatting checks.
+6. Report changed files, API endpoints, security considerations, and test results.
+
+Do not ask for information that can be discovered from the repository.
