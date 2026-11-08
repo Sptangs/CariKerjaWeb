@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\JobSeekerController;
 use App\Http\Controllers\JobSeekerProfileController;
+use App\Http\Controllers\ShuttleController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AuthController::class, 'start'])->name('home');
@@ -102,3 +103,19 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('/profile', [AdminController::class, 'profile'])
             ->name('profile');
     });
+
+
+Route::get('/shuttles', [ShuttleController::class, 'index'])
+    ->name('shuttles.index');
+
+Route::get('/shuttles/create', [ShuttleController::class, 'create'])
+    ->name('shuttles.create');
+
+Route::post('/shuttles', [ShuttleController::class, 'store'])
+    ->name('shuttles.store');
+
+Route::get('/shuttles/{shuttle}/edit', [ShuttleController::class, 'edit'])
+    ->name('shuttles.edit');
+
+Route::put('/shuttles/{shuttle}', [ShuttleController::class, 'update'])
+    ->name('shuttles.update');
