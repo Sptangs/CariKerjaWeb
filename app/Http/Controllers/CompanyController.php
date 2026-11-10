@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Application;
 use App\Models\JobPosting;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -98,7 +99,7 @@ class CompanyController extends Controller
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'location' => ['required', 'string', 'max:255', ],
+            'location' => ['required', 'string', 'max:255',],
             'employment_type' => ['required', 'string', 'max:50'],
             'salary_min' => ['nullable', 'numeric', 'min:0'],
             'salary_max' => ['nullable', 'numeric', 'min:0', 'gte:salary_min'],
@@ -158,7 +159,7 @@ class CompanyController extends Controller
 
     //pelamar
     public function pelamar(Request $request, JobPosting $jobPosting): View
-    {   
+    {
         abort_if($jobPosting->company->id !== $request->user()->company->id, 403);
 
         $applications = $jobPosting->applications()->with('user')->latest()->get();
@@ -205,5 +206,16 @@ class CompanyController extends Controller
                 fclose($stream);
             }
         }, basename($cvPath));
+    }
+
+    public function exportPelamarPdf(Request $request, JobPosting $jobPosting)
+    {
+        abort_if($jobPosting->company_id !== $request->user()->company->id, 403);
+
+        $applications = $jobPosting->applications()->with('user')->get();
+
+        $pdf = Pdf::loadView('company.pdf.pelamar', compact('jobPosting', 'applications'));
+
+        return $pdf->download('Pelamar - ' . $jobPosting->title . '.pdf');
     }
 }

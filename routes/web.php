@@ -91,6 +91,8 @@ Route::middleware(['auth', 'role:company'])
             ->name('pelamar.tolak');
         Route::get('/pelamar/{application}/cv', [CompanyController::class, 'downloadCvPelamar'])
             ->name('pelamar.cv');
+        Route::get('/lowongan/{jobPosting}/export-pdf', [CompanyController::class, 'exportPelamarPdf'])
+            ->name('lowongan.pelamar.pdf');
     });
 
 Route::middleware(['auth', 'role:admin'])
