@@ -17,7 +17,7 @@
                     <span class="text-red-600 font-bold">!</span>
                     <div>
                         <p class="text-sm font-semibold text-red-800">Data belum dapat disimpan.</p>
-                        <p class="text-sm text-red-700">Periksa kembali terkait gaji.</p>
+                        <p class="text-sm text-red-700">Periksa kembali form di bawah ini.</p>
                     </div>
                 </div>
             </div>

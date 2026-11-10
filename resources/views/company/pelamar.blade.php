@@ -3,11 +3,24 @@
 @section('title', 'Pelamar Lowongan')
 
 @section('dashboard-content')
-    <p class="text-xs font-bold uppercase tracking-wide text-blue-500">{{ $jobPosting->title }}</p>
-    <h1 class="text-3xl font-bold text-slate-900">Pelamar Lowongan</h1>
-    <p class="mt-1 text-sm text-slate-500">Tinjau {{ $applications->count() }} kandidat untuk posisi
-        {{ $jobPosting->title }} di {{ $jobPosting->location }}
-    </p>
+    <div class="mb-6 flex items-center justify-between">
+        <div>
+            <p class="text-xs font-bold uppercase tracking-wide text-blue-500">{{ $jobPosting->title }}</p>
+            <h1 class="text-3xl font-bold text-slate-900">Pelamar Lowongan</h1>
+            <p class="mt-1 text-sm text-slate-500">Tinjau {{ $applications->count() }} kandidat untuk posisi
+                {{ $jobPosting->title }} di {{ $jobPosting->location }}
+            </p>
+        </div>
+        
+        {{-- buton donlot pdf --}}
+        <a href="{{ route('company.lowongan.pelamar.pdf', $jobPosting) }}" 
+           class="rounded-lg bg-red-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-red-700 shadow-sm flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+            </svg>
+            Unduh Laporan PDF
+        </a>
+    </div>
 
     @if (session('success'))
         <div class="mb-6 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800">
