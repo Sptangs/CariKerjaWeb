@@ -38,8 +38,14 @@
             <h2 class="text-3xl font-bold text-slate-900">Pelamar Terbaru</h2>
             <p class="text-sm text-slate-500 mt-1">Lima kandidat yang baru mengirim lamaran.</p>
         </div>
-        <a href="{{ route('company.lowongan') }}"
-            class="rounded-lg bg-white border border-slate-300 px-4 py-2 text-sm font-semibold hover:bg-slate-50">Lihat Semua</a>
+        <div class="flex gap-2">
+            <a href="{{ route('company.export.excel') }}"
+                class="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700">
+                Unduh Laporan Excel
+            </a>
+            <a href="{{ route('company.lowongan') }}"
+                class="rounded-lg bg-white border border-slate-300 px-4 py-2 text-sm font-semibold hover:bg-slate-50">Lihat Semua</a>
+        </div>
     </div>
 
     <div class="rounded-lg border border-slate-200 bg-white overflow-hidden">

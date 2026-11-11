@@ -26,10 +26,29 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 
-# Personal AI coding setup
+# Personal AI coding setup and prompt files
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+copilot-instructions.md
+*.instructions.md
+*.prompt.md
+*.agent.md
+/.ai/
 /.agents/
+/.claude/
+/.clinerules/
+/.continue/
 /.opencode/
+/.roo/
+/.windsurf/
+/.cursorrules
 /opencode.json
+/opencode.jsonc
 /opencode.md
 /skills-lock.json
+.github/agents/
+.github/hooks/
+.github/instructions/
+.github/prompts/
 .github/skills/

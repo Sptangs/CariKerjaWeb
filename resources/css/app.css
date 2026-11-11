@@ -221,6 +221,11 @@ body.dashboard-page {
     color: #166534;
 }
 
+.alert-error {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
 .site-footer {
     border-top: 1px solid var(--dashboard-border);
 }

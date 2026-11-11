@@ -148,15 +148,15 @@ class JobSeekerController extends Controller
         if (strtolower($job->status) !== 'open') {
             return redirect()
                 ->route('job-seeker.lowongan.detail', $job)
-                ->with('status', 'Lowongan sudah ditutup dan tidak dapat dilamar.');
+                ->with('status', 'This job posting is closed and no longer accepting applications.');
         }
 
         $validated = $request->validate([
             'cover_letter' => ['required', 'string', 'min:30', 'max:5000'],
         ], [
-            'cover_letter.required' => 'Cover letter wajib diisi.',
-            'cover_letter.min' => 'Cover letter minimal 30 karakter.',
-            'cover_letter.max' => 'Cover letter maksimal 5000 karakter.',
+            'cover_letter.required' => 'A cover letter is required.',
+            'cover_letter.min' => 'The cover letter must be at least 30 characters.',
+            'cover_letter.max' => 'The cover letter may not exceed 5000 characters.',
         ]);
 
         $application = $user->applications()->firstOrCreate(
@@ -167,12 +167,12 @@ class JobSeekerController extends Controller
         if (! $application->wasRecentlyCreated) {
             return redirect()
                 ->route('job-seeker.riwayat')
-                ->with('status', 'Kamu sudah melamar lowongan ini.');
+                ->with('status', 'You have already applied for this job.');
         }
 
         return redirect()
             ->route('job-seeker.riwayat')
-            ->with('status', 'Lamaran berhasil dikirim.');
+            ->with('status', 'Application submitted successfully.');
     }
 
     public function formLamaran(Request $request, JobPosting $job)
@@ -184,7 +184,7 @@ class JobSeekerController extends Controller
         if (! $profile?->cv_path) {
             return redirect()
                 ->route('job-seeker.profile')
-                ->with('error', 'Silakan upload CV terlebih dahulu sebelum melamar pekerjaan.');
+                ->with('error', 'Please upload your CV before applying for a job.');
         }
 
         $hasApplied = Application::where('job_id', $job->id)
@@ -194,7 +194,7 @@ class JobSeekerController extends Controller
         if ($hasApplied) {
             return redirect()
                 ->route('job-seeker.lowongan.detail', $job->id)
-                ->with('error', 'Anda sudah melamar pekerjaan ini.');
+                ->with('error', 'You have already applied for this job.');
         }
 
         $job->load('company');

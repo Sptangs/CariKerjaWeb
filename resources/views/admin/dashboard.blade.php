@@ -4,7 +4,6 @@
 
 @section('dashboard-content')
     <div class="dashboard-card">
-        <h1>Dashboard Admin</h1>
         <p class="subtitle">Selamat datang, {{ auth()->user()->name }}.</p>
 
         <ul>

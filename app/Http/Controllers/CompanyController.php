@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\LaporanExport;
 use App\Models\Application;
 use App\Models\JobPosting;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
-use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class CompanyController extends Controller
@@ -77,10 +79,10 @@ class CompanyController extends Controller
 
         return redirect()
             ->route('company.profile')
-            ->with('success', 'Profil perusahaan berhasil diperbarui.');
+            ->with('success', 'Company profile updated successfully.');
     }
 
-    //lowongan
+    // lowongan
     public function lowongan(Request $request): View
     {
         $company = $request->user()->company;
@@ -98,7 +100,7 @@ class CompanyController extends Controller
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'location' => ['required', 'string', 'max:255', ],
+            'location' => ['required', 'string', 'max:255'],
             'employment_type' => ['required', 'string', 'max:50'],
             'salary_min' => ['nullable', 'numeric', 'min:0'],
             'salary_max' => ['nullable', 'numeric', 'min:0', 'gte:salary_min'],
@@ -106,14 +108,14 @@ class CompanyController extends Controller
             'requirements' => ['required', 'string'],
             'status' => ['required', 'in:open,closed'],
         ], [
-            'salary_max.gte' => 'Gaji maksimum harus lebih besar atau sama dengan gaji minimum.',
+            'salary_max.gte' => 'The maximum salary must be greater than or equal to the minimum salary.',
         ]);
 
         $request->user()->company->jobs()->create($validated);
 
         return redirect()
             ->route('company.lowongan')
-            ->with('success', 'Lowongan berhasil dibuat.');
+            ->with('success', 'Job posting created successfully.');
     }
 
     public function editLowongan(Request $request, JobPosting $jobPosting): View
@@ -142,7 +144,7 @@ class CompanyController extends Controller
 
         return redirect()
             ->route('company.lowongan')
-            ->with('success', 'Lowongan berhasil diperbarui.');
+            ->with('success', 'Job posting updated successfully.');
     }
 
     public function tutupLowongan(Request $request, JobPosting $jobPosting): RedirectResponse
@@ -153,12 +155,12 @@ class CompanyController extends Controller
 
         return redirect()
             ->route('company.lowongan')
-            ->with('success', 'Lowongan berhasil ditutup.');
+            ->with('success', 'Job posting closed successfully.');
     }
 
-    //pelamar
+    // pelamar
     public function pelamar(Request $request, JobPosting $jobPosting): View
-    {   
+    {
         abort_if($jobPosting->company->id !== $request->user()->company->id, 403);
 
         $applications = $jobPosting->applications()->with('user')->latest()->get();
@@ -172,7 +174,7 @@ class CompanyController extends Controller
 
         $application->update(['status' => 'accepted']);
 
-        return back()->with('success', 'Pelamar berhasil diterima.');
+        return back()->with('success', 'Applicant accepted successfully.');
     }
 
     public function tolakPelamar(Request $request, Application $application): RedirectResponse
@@ -181,7 +183,7 @@ class CompanyController extends Controller
 
         $application->update(['status' => 'rejected']);
 
-        return back()->with('success', 'Pelamar berhasil ditolak.');
+        return back()->with('success', 'Applicant rejected successfully.');
     }
 
     public function downloadCvPelamar(Request $request, Application $application): StreamedResponse
@@ -194,7 +196,7 @@ class CompanyController extends Controller
 
         $stream = Storage::disk('local')->readStream($cvPath);
 
-        if (!is_resource($stream)) {
+        if (! is_resource($stream)) {
             abort(404);
         }
 
@@ -205,5 +207,15 @@ class CompanyController extends Controller
                 fclose($stream);
             }
         }, basename($cvPath));
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $company = $request->user()->company;
+
+        return Excel::download(
+            new LaporanExport($company->id),
+            'laporan-pelamar.xlsx'
+        );
     }
 }

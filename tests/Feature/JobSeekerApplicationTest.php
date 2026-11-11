@@ -19,7 +19,7 @@ class JobSeekerApplicationTest extends TestCase
         $this->actingAs($jobSeeker)
             ->post(route('job-seeker.lowongan.apply', $job))
             ->assertRedirect(route('job-seeker.riwayat'))
-            ->assertSessionHas('status', 'Lamaran berhasil dikirim.');
+            ->assertSessionHas('status', 'Application submitted successfully.');
 
         $this->assertDatabaseHas('applications', [
             'job_id' => $job->id,
@@ -35,7 +35,7 @@ class JobSeekerApplicationTest extends TestCase
             ->assertSee('Madiun')
             ->assertSee('Menunggu')
             ->assertSee($application->created_at->format('d/m/Y H:i'))
-            ->assertSee('Lamaran berhasil dikirim.');
+            ->assertSee('Application submitted successfully.');
     }
 
     public function test_job_seeker_cannot_apply_to_a_closed_job(): void
@@ -46,7 +46,7 @@ class JobSeekerApplicationTest extends TestCase
         $this->actingAs($jobSeeker)
             ->post(route('job-seeker.lowongan.apply', $job))
             ->assertRedirect(route('job-seeker.lowongan.detail', $job))
-            ->assertSessionHas('status', 'Lowongan sudah ditutup dan tidak dapat dilamar.');
+            ->assertSessionHas('status', 'This job posting is closed and no longer accepting applications.');
 
         $this->assertDatabaseMissing('applications', [
             'job_id' => $job->id,
@@ -63,7 +63,7 @@ class JobSeekerApplicationTest extends TestCase
         $this->actingAs($jobSeeker)
             ->post(route('job-seeker.lowongan.apply', $job))
             ->assertRedirect(route('job-seeker.riwayat'))
-            ->assertSessionHas('status', 'Kamu sudah melamar lowongan ini.');
+            ->assertSessionHas('status', 'You have already applied for this job.');
 
         $this->assertSame(
             1,

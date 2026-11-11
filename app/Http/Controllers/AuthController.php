@@ -61,7 +61,7 @@ class AuthController extends Controller
 
         return redirect()
             ->route($this->dashboardRoute($user))
-            ->with('success', 'Registrasi berhasil. Selamat datang di CariKerja!');
+            ->with('success', 'Registration successful. Welcome to CariKerja!');
     }
 
     public function showLogin(): View
@@ -78,7 +78,7 @@ class AuthController extends Controller
 
         if (! Auth::attempt($credentials, $request->boolean('remember'))) {
             return back()
-                ->withErrors(['email' => 'Email atau password salah.'])
+                ->withErrors(['email' => 'The email or password is incorrect.'])
                 ->onlyInput('email');
         }
 
@@ -86,7 +86,7 @@ class AuthController extends Controller
 
         return redirect()
             ->route($this->dashboardRoute($request->user()))
-            ->with('success', 'Berhasil masuk.');
+            ->with('success', 'Login successful.');
     }
 
     public function logout(Request $request): RedirectResponse
@@ -96,7 +96,7 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login')->with('success', 'Anda sudah keluar.');
+        return redirect()->route('login')->with('success', 'You have been logged out.');
     }
 
     private function dashboardRoute(User $user): string

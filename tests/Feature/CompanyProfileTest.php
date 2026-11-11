@@ -22,6 +22,21 @@ class CompanyProfileTest extends TestCase
             ->assertSee('PT Contoh Nusantara');
     }
 
+    public function test_company_dashboard_links_to_excel_report_download(): void
+    {
+        $user = User::factory()->create(['role' => 'company']);
+        $user->company()->create(['company_name' => 'PT Contoh Nusantara']);
+
+        $this->actingAs($user)
+            ->get(route('company.dashboard'))
+            ->assertOk()
+            ->assertSee('Unduh Laporan Excel')
+            ->assertSee(route('company.export.excel'));
+
+        $this->get(route('company.export.excel'))
+            ->assertDownload('laporan-pelamar.xlsx');
+    }
+
     public function test_company_can_update_account_and_company_profile(): void
     {
         $user = User::factory()->create(['role' => 'company']);

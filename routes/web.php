@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
@@ -65,6 +66,8 @@ Route::middleware(['auth', 'role:company'])
     ->group(function () {
         Route::get('/dashboard', [CompanyController::class, 'dashboard'])
             ->name('dashboard');
+        Route::get('/export-excel', [CompanyController::class, 'exportExcel'])
+            ->name('export.excel');
 
         Route::get('/profile', [CompanyController::class, 'profile'])
             ->name('profile');
@@ -100,10 +103,12 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('/dashboard', [AdminController::class, 'dashboard'])
             ->name('dashboard');
 
+        Route::get('/users', [AdminUserController::class, 'index'])
+            ->name('users.index');
+
         Route::get('/profile', [AdminController::class, 'profile'])
             ->name('profile');
     });
-
 
 Route::get('/shuttles', [ShuttleController::class, 'index'])
     ->name('shuttles.index');
