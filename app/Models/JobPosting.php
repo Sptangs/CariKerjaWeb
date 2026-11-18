@@ -8,15 +8,18 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class JobPosting extends Model
 {
-    protected $fillable = ['title',
-    'location',
-    'employment_type',
-    'salary_min',
-    'salary_max',
-    'description',
-    'requirements',
-    'status'];
-    
+    protected $fillable = [
+        'company_id',
+        'title',
+        'location',
+        'employment_type',
+        'salary_min',
+        'salary_max',
+        'description',
+        'requirements',
+        'status'
+    ];
+
     protected function casts(): array
     {
         return [
@@ -26,9 +29,9 @@ class JobPosting extends Model
     }
 
     public function company(): BelongsTo
-{
-    return $this->belongsTo(Company::class, 'company_id');
-}
+    {
+        return $this->belongsTo(Company::class, 'company_id');
+    }
 
     public function applications(): HasMany
     {
