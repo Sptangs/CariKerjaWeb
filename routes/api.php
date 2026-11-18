@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\ApplicationApiController as AdminApplicationApiController;
+use App\Http\Controllers\Api\Admin\CompanyApiController as AdminCompanyApiController;
+use App\Http\Controllers\Api\Admin\JobPostingApiController as AdminJobPostingApiController;
 use App\Http\Controllers\Api\Admin\UserApiController as AdminUserApiController;
 use App\Http\Controllers\Api\AdminApiController;
 use App\Http\Controllers\Api\AuthApiController;
@@ -59,6 +62,23 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('role:admin')->prefix('admin')->name('api.admin.')->group(function () {
         Route::get('/dashboard', [AdminApiController::class, 'dashboard'])->name('dashboard');
         Route::get('/users', [AdminUserApiController::class, 'index'])->name('users.index');
+
+        Route::get('/companies', [AdminCompanyApiController::class, 'index'])->name('companies.index');
+        Route::get('/companies/{company}', [AdminCompanyApiController::class, 'show'])->name('companies.show');
+        Route::put('/companies/{company}', [AdminCompanyApiController::class, 'update'])->name('companies.update');
+        Route::delete('/companies/{company}', [AdminCompanyApiController::class, 'destroy'])->name('companies.destroy');
+
+        Route::get('/jobs', [AdminJobPostingApiController::class, 'index'])->name('jobs.index');
+        Route::get('/jobs/{jobPosting}', [AdminJobPostingApiController::class, 'show'])->name('jobs.show');
+        Route::put('/jobs/{jobPosting}', [AdminJobPostingApiController::class, 'update'])->name('jobs.update');
+        Route::patch('/jobs/{jobPosting}/status', [AdminJobPostingApiController::class, 'changeStatus'])->name('jobs.status');
+        Route::delete('/jobs/{jobPosting}', [AdminJobPostingApiController::class, 'destroy'])->name('jobs.destroy');
+
+        Route::get('/applications', [AdminApplicationApiController::class, 'index'])->name('applications.index');
+        Route::patch('/applications/{application}/status', [AdminApplicationApiController::class, 'changeStatus'])
+            ->name('applications.status');
+        Route::delete('/applications/{application}', [AdminApplicationApiController::class, 'destroy'])
+            ->name('applications.destroy');
     });
 
     Route::middleware('role:admin')->group(function () {

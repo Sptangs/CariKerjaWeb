@@ -3,11 +3,14 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class AdminDashboardTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_admin_can_view_dashboard(): void
     {
         $admin = User::factory()->create(['role' => 'admin']);
