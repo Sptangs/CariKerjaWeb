@@ -91,7 +91,7 @@ namespace App\Http\Controllers;
                 ->with('success', 'Profil berhasil diperbarui.');
         }
 
-        public function downloadCv(Request $request): StreamedResponse
+        public function downloadCvAds(Request $request): StreamedResponse
         {
             $cvPath = $request->user()->jobSeekerProfile?->cv_path;
 
