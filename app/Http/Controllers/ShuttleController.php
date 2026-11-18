@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Entitas;
 use App\Models\Shuttle;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ShuttleController extends Controller
 {
     /**
      * Menampilkan daftar shuttle dengan fitur filtering berdasarkan input 'search' dari form.
-     * 
+     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\View\View
      */
@@ -42,13 +44,24 @@ class ShuttleController extends Controller
      */
     public function store(Request $request)
     {
+        if ($request->bearerToken() !== 'TOKEN-RAHASIA-123') { return response()->json(['message' => 'Unauthorized'], 401); }
+        
         // Menerapkan aturan validasi sebelum data disimpan
         $request->validate([
             'nama' => 'required|string|max:255',
-            'kapasitas' => 'required|integer|min:1',
+            'umur' => 'required|integer',
+            'keahlian' => 'required|string|max:255',
+            'jenis_kelamin' => 'required|string|max:255',
+            'status_kerja' => 'required|integer',
         ]);
-        Shuttle::create($request->all());
-        return redirect()->route('shuttles.index');
+
+        // Menangkap semua data dari request dan menyimpannya ke tabel database
+        $data = Entitas::create($request->only(['nama', 'umur', 'keahlian', 'jenis_kelamin', 'status_kerja']));
+
+        return response()->json([
+            'message' => 'Data berhasil disimpan!',
+            'data' => $data
+        ], 201);
     }
 
     /**
@@ -57,6 +70,7 @@ class ShuttleController extends Controller
      * @param  string  $id
      * @return \Illuminate\View\View
      */
+
     public function show(string $id)
     {
         //
@@ -105,5 +119,12 @@ class ShuttleController extends Controller
         $shuttle = Shuttle::findOrFail($id);
         $shuttle->delete();
         return redirect()->route('shuttles.index');
+    }
+
+    public function exportPDF()
+    {
+        $shuttles = Shuttle::all();
+        $pdf = Pdf::loadView('shuttles.pdf', compact('shuttles'));
+        return $pdf->download('shuttles.pdf');
     }
 }
