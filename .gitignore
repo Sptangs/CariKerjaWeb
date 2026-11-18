@@ -30,6 +30,7 @@ Thumbs.db
 AGENTS.md
 CLAUDE.md
 GEMINI.md
+/docs/fe_carikerja/
 copilot-instructions.md
 *.instructions.md
 *.prompt.md
