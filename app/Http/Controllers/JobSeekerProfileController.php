@@ -91,7 +91,7 @@ class JobSeekerProfileController extends Controller
             ->with('success', 'Profile updated successfully.');
     }
 
-    public function downloadCv(Request $request): StreamedResponse
+    public function downloadCvAds(Request $request): BinaryFileResponse
     {
         $cvPath = $request->user()->jobSeekerProfile?->cv_path;
 
