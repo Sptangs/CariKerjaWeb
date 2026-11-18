@@ -4,6 +4,12 @@
     <button type="submit">Cari</button>
 </form>
 
+<div style="margin-bottom: 15px;">
+    <a href="{{ route('shuttles.create') }}" style="padding: 5px 10px; background-color: blue; color: white; text-decoration: none; margin-right: 10px;">+ Tambah Data Shuttle</a>
+    
+    <a href="{{ route('export.pdf') }}" style="padding: 5px 10px; background-color: green; color: white; text-decoration: none;">Unduh Laporan PDF</a>
+</div>
+
 <table border="1" cellpadding="10" cellspacing="0" style="margin-top: 15px;">
     <thead>
         <tr>
