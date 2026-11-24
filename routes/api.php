@@ -81,13 +81,6 @@ Route::middleware('auth:sanctum')->group(function () {
             ->name('applications.destroy');
     });
 
-    Route::middleware('role:admin')->group(function () {
-        Route::post('/users', [AdminUserApiController::class, 'store'])->name('api.users.store');
-        Route::get('/users/{id}', [AdminUserApiController::class, 'show'])->name('api.users.show');
-        Route::get('/users', [AdminUserApiController::class, 'index'])->name('api.users.index');
-        Route::post('/shuttles', [ShuttleApiController::class, 'store'])->name('api.shuttles.store');
-        Route::put('/shuttles/{shuttle}', [ShuttleApiController::class, 'update'])->name('api.shuttles.update');
-    });
 });
 
 Route::get('/shuttles', [ShuttleApiController::class, 'index'])->name('api.shuttles.index');
