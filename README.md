@@ -56,3 +56,61 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Docker
+
+### Development
+
+1. Salin `.env.example` menjadi `.env`, lalu isi `DB_PASSWORD` dan `MYSQL_ROOT_PASSWORD`.
+2. Build dan jalankan:
+
+   ```bash
+   docker compose build
+   docker compose up -d
+   ```
+
+3. Aplikasi: `http://localhost:8000`, phpMyAdmin: `http://127.0.0.1:8080`, MySQL dari host: `127.0.0.1:3307`.
+4. Jika `APP_KEY` masih kosong (`.env` di-bind mount, jadi hasilnya tersimpan di host):
+
+   ```bash
+   docker compose exec app php artisan key:generate
+   ```
+
+5. Migrasi otomatis berjalan jika `RUN_MIGRATIONS=true`. Untuk mengisi data contoh:
+
+   ```bash
+   docker compose exec app php artisan db:seed
+   ```
+
+### Refresh volume vendor dan build
+
+Named volume `vendor` dan `build` di-seed dari image saat pertama kali dibuat. Perubahan pada `composer.json` / `composer.lock` atau dependency frontend tidak otomatis masuk ke volume tersebut.
+
+Setelah mengubah dependency, build ulang lalu ganti volume:
+
+```bash
+docker compose build --no-cache app
+docker compose down
+docker volume rm carikerja_vendor carikerja_build
+docker compose up -d
+```
+
+Peringatan: `docker compose down -v` juga menghapus volume database. Hapus volume secara spesifik seperti contoh di atas jika data database ingin dipertahankan.
+
+### Production
+
+1. Salin `.env.production.example` menjadi `.env` di server, lalu isi `APP_KEY`, kredensial database, dan `APP_URL`. Karena production tidak memakai bind mount, generate `APP_KEY` di host dengan `php -r "echo 'base64:'.base64_encode(random_bytes(32)).PHP_EOL;"` lalu salin nilainya ke `.env`.
+2. Build dan jalankan:
+
+   ```bash
+   docker compose -f docker-compose.prod.yml build
+   docker compose -f docker-compose.prod.yml up -d
+   ```
+
+3. Jalankan migrasi secara eksplisit (default `RUN_MIGRATIONS=false`):
+
+   ```bash
+   docker compose -f docker-compose.prod.yml exec app php artisan migrate --force
+   ```
+
+4. HTTPS dan reverse proxy (mis. Caddy, Traefik, atau Nginx di host) belum termasuk dan perlu disiapkan terpisah.

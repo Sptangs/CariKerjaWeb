@@ -26,6 +26,15 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 
+
+
+# Docker configuration
+.dockerignore
+/Dockerfile*
+/docker-compose*.yml
+/docker-compose*.yaml
+/docker/
+
 # Personal AI coding setup and prompt files
 AGENTS.md
 CLAUDE.md
