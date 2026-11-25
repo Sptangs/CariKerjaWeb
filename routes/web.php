@@ -17,6 +17,3 @@ Route::get('/pendaftar-master', [PageController::class, 'pendaftar_master']);
 Route::get('/pendaftar2', [PageController::class, 'pendaftar2']);
 Route::get('/pendaftar2-master', [PageController::class, 'pendaftar2_master']); //eh, ini yang mana yak? perlu kah? kayaknya enggak
 // soalnya di pagecontroller nggak ada ituannya
-
-
-ayam
